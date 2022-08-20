@@ -1,0 +1,51 @@
+### 解题思路
+
+n数之和解题公式 = n-1个for循环 + 双指针
+然后再观察算法加入一些限制减少重复运算即可
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        /**
+            利用指针解决
+            n数之和解题公式 = n-1个for循环 + 双指针
+         */
+        List<List<Integer>> allList = new ArrayList<>();
+        if(nums.length<3){
+            //解决脏数据
+            return allList;
+        }
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length-2;i++){
+            //剪枝,减少重复计算
+            if(i>0&&nums[i]==nums[i-1]){
+                continue;
+            }
+            int L = i+1;
+            int R = nums.length-1;
+            while(L<R){
+                if(nums[L]+nums[R]+nums[i]==0){
+                    allList.add(Arrays.asList(nums[L],nums[R],nums[i]));
+                    while(L<R&&nums[L]==nums[L+1]){ //剪枝操作
+                        L++;
+                    }
+                    while(L<R&&nums[R]==nums[R-1]){ //剪枝操作
+                        R--;
+                    }
+                    L++;R--;
+                }else if(nums[L]+nums[R]+nums[i]<0){
+                    L++;
+                }else{
+                    R--;
+                }
+            }
+        }  
+        return allList;
+    } 
+}
+```
+

@@ -1,0 +1,24 @@
+### 解题思路
+
+可读性差一点，但节省变量
+
+### 代码
+
+* python3
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        pre_head = ListNode(0, head)
+        pre, cur = pre_head, head
+        while cur and cur.next:
+            cur.next.next, cur.next, pre.next, cur, pre = cur, cur.next.next, cur.next, cur.next.next, cur
+        return pre_head.next
+
+```
+

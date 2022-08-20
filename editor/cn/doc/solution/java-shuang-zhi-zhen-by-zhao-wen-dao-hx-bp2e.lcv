@@ -1,0 +1,49 @@
+### 解题思路
+
+发现一个问题 这种双指针问题 一般判断条件都是不满足target等时候进行覆盖移动种种，而个人习惯于判断如果条件满足了，这样有很多坑，当时第一次想的是将right的值变成left+1的值，这样的结果就是列表中复制了一份值。。。
+由于right指向处理好的元素尾部 故如果left指向target元素时，让它自己玩去就行，只有指向与target不相等的元素时候才是我right哥关心的，无论是right长度加一还是left所指向的值。所以判断条件一定要是 我们需要的啊！！！！！！
+下面第二个是改进之后的。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int n = nums.length, left = 0, right = 0;
+        while (left < n) {
+            if (nums[left] == val) {
+                ++left;
+            } else {
+                nums[right] = nums[left];
+                ++right;
+                ++left;
+            }
+        }
+        return right;
+        
+    }
+}
+```
+
+改进
+
+* java
+
+```java
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int n = nums.length, left = 0, right = 0;
+        while (left < n) {
+            if (nums[left] ！= val) {
+                nums[right] = nums[left];
+                ++right;
+            }
+            ++left;
+        }
+        return right;
+    }
+}
+```
+

@@ -1,0 +1,73 @@
+方法一：预排序、双指针、前后比较去重
+
+* java
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        long t = target;
+        int n = nums.length;
+        if (n < 4) return new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < n - 3; i++) {
+            while (i > 0 && i < n - 3 && nums[i] == nums[i - 1]) i++;
+            for (int j = i + 1; j < n - 2; j++) {
+                while (j > i + 1 &&  j < n - 2 && nums[j] == nums[j - 1]) j++;
+                int l = j + 1, r = n - 1;
+                while (l < r) {
+                    long sum = (long)nums[i] + (long)nums[j] + (long)nums[l] + (long)nums[r];
+                    if (sum < t) {
+                        l++;
+                    } else if (sum > t) {
+                        r--;
+                    } else {
+                        res.add(Arrays.asList(nums[i], nums[j], nums[l], nums[r]));
+                        while (l < r && nums[l] == nums[++l]);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+}
+```
+
+![image.png](https://pic.leetcode-cn.com/1660643380-coVcnU-image.png)
+
+方法二：预排序、双指针、Set去重
+
+* java
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        long t = target;
+        int n = nums.length;
+        if (n < 4) return new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        Set<List<Integer>> set = new HashSet<>();
+        long res = nums[0] + nums[1] + nums[2] + nums[3];
+        for (int i = 0; i < n - 3; i++) {
+            for (int j = i + 1; j < n - 2; j++) {
+                int l = j + 1, r = n - 1;
+                while (l < r) {
+                    long sum = (long)nums[i] + (long)nums[j] + (long)nums[l] + (long)nums[r];
+                    if (sum < t) {
+                        l++;
+                    } else if (sum > t) {
+                        r--;
+                    } else {
+                        set.add(Arrays.asList(nums[i], nums[j], nums[l], nums[r]));
+                        l++;
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(set);
+    }
+}
+```
+
+![image.png](https://pic.leetcode-cn.com/1660642111-qVgOqR-image.png)
+

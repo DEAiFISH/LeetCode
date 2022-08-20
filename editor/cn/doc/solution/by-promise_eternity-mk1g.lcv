@@ -1,0 +1,28 @@
+### 解题思路
+
+枚举出所有的数字：
+分别是：1，2，3，5，8，13，21，34，55......
+我们会发现这很符合斐波那契数列的格式，直接写出斐波那契数列的代码就很OK了
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int climbStairs(int n) {
+        int a = 1, b = 1, sum = 0;
+        if(n == 1)
+            return n;
+        for(int i = 2; i <= n; i++){
+            sum = a + b;
+            a = b;
+            b = sum;
+        }
+        return sum;
+    }
+}
+```
+
+![{%OZT5}07GAIM{}0P{3IXKH.png](https://pic.leetcode-cn.com/1658736053-aacZxG-%7B_OZT5%7D07GAIM%7B%7D0P%7B3IXKH.png)
+

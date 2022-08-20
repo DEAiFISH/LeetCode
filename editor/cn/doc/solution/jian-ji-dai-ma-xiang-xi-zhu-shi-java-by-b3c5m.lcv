@@ -1,0 +1,37 @@
+该题与[字符串相加](https://leetcode-cn.com/problems/add-strings/solution/shuang-zhi-zhen-cong-hou-xiang-qian-xian-049q/)这道题非常相似。
+从前向后，两个两个加，注意判断进位情况。详见代码注释
+
+* java
+
+```java
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    	//res存放结果，cur为res的尾指针
+        ListNode res = new ListNode();
+        ListNode cur = res;
+        //表示进位
+        int carry = 0;
+        while (l1 != null || l2 != null){
+        	//如果其中有一个到达结尾了，那么这个链表这一位的的数字就为0。
+            int a = l1 == null ? 0 : l1.val;
+            int b = l2 == null ? 0 : l2.val;
+            //两个链表的两位相加
+            int sum = a + b + carry;
+            //大于10进位
+            carry = sum / 10;
+            //进位完剩下的余数
+            sum %= 10;
+            //创建一个节点接入res后面
+            cur.next = new ListNode(sum);
+            cur = cur.next;
+        	//分别后移
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+        }
+        //如果最后还有进位的话，增加一个节点
+        if (carry == 1) cur.next = new ListNode(1);
+        return res.next;
+    }
+}
+```
+

@@ -1,0 +1,75 @@
+# 解法
+
+## 思路和算法
+
+由于字符串 $s$ 可能有前导空格，因此首先判断是否有前导空格，如果有前导空格则跳过。
+
+排除前导空格之后，如果到达字符串末尾，则返回 $0$。如果没有到达字符串末尾，则对剩下的字符转换整数。
+
+一个整数包含两个部分，一是可选的符号字符 $\text{`+'}$ 或 $\text{`--'}$，二是一位至多位数字。符号字符决定了整数的正负性，如果没有符号字符，则是正数。
+
+首先判断第一个字符（在排除前导空格之后），记录整数的正负性。如果是符号字符，则设置整数的正负性，并移动到下一个字符。
+
+然后遍历其余的字符，计算整数的值，直到遍历到字符串末尾或者遇到非数字字符为止。
+
+由于已经记录整数的正负性，因此在计算整数的值时按照正数处理即可。每当遍历到一个新的数字字符，将整数的值乘以 $10$ 然后加上新的数字字符代表的数字。
+
+由于题目要求结果必须在 $32$ 位有符号整数范围内，因此在计算过程中需要判断整数的值是否超出范围。一种做法是用 $\texttt{long}$ 型存储整数，另一种做法是在更新整数值之前判断更新后的整数值是否会超出范围。具体做法是，令 $\textit{MAX} = \Big\lfloor \dfrac{2^{31}}{10} \Big\rfloor$，进行如下判断：
+
+- 如果当前整数的值已经超过 $\textit{MAX}$，则在更新整数的值之后一定超出范围；
+
+- 如果当前整数的值等于 $\textit{MAX}$，则判断新的数字字符是否会导致更新整数后的值超出范围，如果在正数的情况下新的数字字符大于 $7$ 或者在负数的情况下新的数字字符大于 $8$，则会超出范围，因为 $2^{31} - 1 = 2147483647$，$-2^{31} = -2147483648$。
+
+如果遇到整数的值超出范围，则在正数的情况下返回 $2^{31} - 1$，在负数的情况下返回 $-2^{31}$。
+
+如果计算结束时，整数的值没有超出范围，则根据整数的正负性得到最终结果并返回。
+
+## 代码
+
+* [sol1-Java]
+
+```Java
+class Solution {
+    public int myAtoi(String s) {
+        int length = s.length();
+        int index = 0;
+        while (index < length && s.charAt(index) == ' ') {
+            index++;
+        }
+        if (index == length) {
+            return 0;
+        }
+        int sign = 1;
+        if (s.charAt(index) == '+') {
+            index++;
+        } else if (s.charAt(index) == '-') {
+            sign = -1;
+            index++;
+        }
+        final int MAX = Integer.MAX_VALUE / 10;
+        int num = 0;
+        while (index < length && Character.isDigit(s.charAt(index))) {
+            int digit = s.charAt(index) - '0';
+            if (num > MAX) {
+                return sign > 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            } else if (num == MAX) {
+                if (sign > 0 && digit > 7) {
+                    return Integer.MAX_VALUE;
+                } else if (sign < 0 && digit > 8) {
+                    return Integer.MIN_VALUE;
+                }
+            }
+            num = num * 10 + digit;
+            index++;
+        }
+        return num * sign;
+    }
+}
+```
+
+## 复杂度分析
+
+- 时间复杂度：$O(n)$，其中 $n$ 是字符串 $s$ 的长度。需要遍历字符串 $s$ 一次，对于每个字符的操作时间都是 $O(1)$。
+
+- 空间复杂度：$O(1)$。
+

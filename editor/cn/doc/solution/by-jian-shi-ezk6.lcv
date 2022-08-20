@@ -1,0 +1,70 @@
+使用双指针的java题解，注意点是重复值的处理
+
+* 
+
+```
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        // 申明返回结果
+        List<List<Integer>> result = new ArrayList<List<Integer>>(1<<4);
+        // 用变量保存数组长度
+        int len = nums.length;
+        // 特殊情况：如果nums的长度不足3或者为null
+        if(nums.length < 3 || nums == null){
+            return result;
+        }
+        // 排序
+        Arrays.sort(nums);
+        // 如果第一个元素都大于0或者最后一个小于0也是特殊情况
+        if(nums[0] > 0 || nums[len-1] <0){
+            return result;
+        }
+        // 循环
+        for(int i = 0; i<len; i++){
+            // 当循环中的起始都大于0，那么直接跳出循环
+            if (nums[i] > 0){
+                continue;
+            }
+            // 跳过第二个一样的值的循环,可以避免两个一样的值的重复
+            if (i>0 && nums[i] == nums[i-1]){
+                continue;
+            }
+            // 定义左指针
+            int left = i+1;
+            // 定义右指针
+            int right = len-1;
+            while(left < right){
+                // 定义和值用于判断
+                int sum = nums[i] + nums[left] + nums[right];
+                if(sum < 0 ){
+                // 如果小于0，左指针右移
+                  left++;
+                } else if (sum>0){
+                // 如果大于0，右指针左移
+                    right--;
+                }else if(sum == 0 ){
+                    //保存结果值
+                    List<Integer> middleResult = new ArrayList<Integer>(1<<2);
+                    middleResult.add(nums[i]);
+                    middleResult.add(nums[left]);
+                    middleResult.add(nums[right]);
+                    result.add(middleResult);
+                    while(nums[left] == nums[left+1] && left < len-2){
+                        //如果左指针的值和下一个值一样，直接跳过
+                        left++;
+                    }
+                    while(nums[right] == nums[right-1] && 2 < right){
+                        //如果右指针的值和下一个值一样，直接跳过
+                        right--;
+                    }
+                    left++;
+                    right--;
+                }
+            }
+
+        }
+        return result;
+    }
+}
+```
+

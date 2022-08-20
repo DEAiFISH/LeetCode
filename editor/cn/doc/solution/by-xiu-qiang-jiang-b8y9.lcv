@@ -1,0 +1,51 @@
+import java.util.Arrays;
+
+class Solution {
+public static void main(String[] args) {
+int[] nums1 = new int[]{2, 0};
+int m = 1;
+int[] nums2 = new int[]{1};
+int n = 1;
+new Solution().merge(nums1, m, nums2, n);
+System.out.println(Arrays.toString(nums1));
+}
+
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        // nums2 为空数组的情况，nums1 不用修改，直接返回
+        if (n == 0) {
+            return;
+        }
+        // nums1 为空数组情况，将 nums2 拷贝到 nums1
+        if (m == 0) {
+            System.arraycopy(nums2, 0, nums1, 0, n);
+            return;
+        }
+        // m和n都不为0的情况
+        int m1 = 0;
+        int n1 = 0;
+        int l = m + n;
+        int[] temp = new int[l];
+        // temp 数组的下标
+        int index = 0;
+        while (m1 < m && n1 < n) {
+            if (nums1[m1] <= nums2[n1]) {
+                temp[index] = nums1[m1];
+                m1++;
+            } else {
+                temp[index] = nums2[n1];
+                n1++;
+            }
+            index++;
+        }
+        // nums2 已经遍历完成了
+        if (m1 < m) {
+            System.arraycopy(nums1, m1, temp, index, m - m1);
+        }
+        // nums1 已经遍历完成了
+        if (n1 < n) {
+            System.arraycopy(nums2, n1, temp, index, n - n1);
+        }
+        System.arraycopy(temp, 0, nums1, 0, l);
+    }
+
+}

@@ -1,0 +1,41 @@
+### 解题思路
+
+1. 深度优先遍历
+2. 切记，leetcode尽量不要使用过多的全局变量。把变量放到函数中。
+3. paths.add(new ArrayList<>(path));
+4. path中的元素，再回溯时，要将最后一个元素删除。再继续。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    
+    private List<List<Integer>> paths = new LinkedList<>();
+
+    public List<List<Integer>> permute(int[] nums) {
+        int num = nums.length;
+        List<Integer> path = new LinkedList<>();
+        boolean[] live = new boolean[num];
+        dfs(path,live,1,nums);
+        return paths;
+    }
+
+    private void dfs(List<Integer> path,boolean[] live,int i,int[] nums) {
+        if(i>nums.length){ 
+            paths.add(new ArrayList<>(path));
+        }
+        for (int j = 0; j <nums.length; j++) {
+            if(!live[j]){
+                live[j] = true;
+                path.add(nums[j]);
+                dfs(path,live,i+1,nums);
+                path.remove(path.size() - 1);
+                live[j] = false;
+            }
+        }
+    }
+}
+```
+

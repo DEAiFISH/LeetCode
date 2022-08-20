@@ -1,0 +1,47 @@
+# 解题思路
+
+1. 创建一个栈
+2. 把字符串转换成char数组
+3. 遍历数组,遇到左括号都入栈
+4. 然后遇到右括号时判断栈顶的值是否与当前值相等
+5. 如果相等就把左括号弹出栈顶,说明这个是一对有效的括号
+6. 如果不相等,括号没有按照正确顺序闭合,直接返回false
+7. 最后判断栈是否为空,如果为空则左右括号都能顺序闭合
+
+* 
+
+```
+public boolean isValid(String s) {
+    // 利用栈先进后出的特点
+    char[] chars = s.toCharArray();
+    Stack<Character> stack = new Stack<>();
+    for (char c : chars) {
+        // 如果遇到左括号直接入栈
+        if (c == '{' || c == '[' || c == '(') {
+            stack.push(c);
+        } else {
+            // 如果栈为空,且不是左括号直接return false
+            if (stack.isEmpty()) {
+                return false;
+            } else {
+                // 如果是右括号,判断栈顶是否是对应的左括号,是的话弹出栈顶(左右两括号抵消)
+                if (stack.peek() == '(' && c == ')') {
+                    stack.pop();
+                } else if (stack.peek() == '{' && c == '}') {
+                    stack.pop();
+                } else if (stack.peek() == '[' && c == ']') {
+                    stack.pop();
+                } else {
+                    // 如果都不是,返回false
+                    return false;
+                }
+            }
+        }
+    }
+    // 最后判断栈是否为空,如果是有效的括号,两两消除后一定为空
+    return stack.isEmpty();
+}
+```
+
+执行用时:1ms,战胜98.9%
+内存消耗:39.2MB,战胜87.2%

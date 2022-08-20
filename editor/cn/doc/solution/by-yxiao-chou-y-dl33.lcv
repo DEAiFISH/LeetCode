@@ -1,0 +1,44 @@
+* 
+
+```
+class Solution {
+   public ListNode swapPairs(ListNode head) {
+            if(head==null||head.next==null)
+            return head;
+            ListNode result=head;
+            head=result.next;
+            while(true)
+            {
+                ListNode tem=result.next.next;
+                result.next.next=result;
+                if(tem==null||tem.next==null)
+                {
+                    result.next=tem;
+                    break;
+                }
+                ListNode node=tem.next;
+                result.next=node;
+                result=tem;
+            }
+            return head;
+        }
+}
+```
+
+1. 首先，当链表长度为0或1时直接输出head即可；
+2. 当链表长度大于等于2时开始转换：
+   （1）令result指向head节点，result后续我们要改变顺序，令head指向原本的第二个节点，这是我们返回链表的首节点：
+   ![image.png](https://pic.leetcode-cn.com/1660184503-EOIYrS-image.png)
+   ![image.png](https://pic.leetcode-cn.com/1660184533-ideRuc-image.png)
+   （2）令tem指向result的下一节点的下一节点,令result下个节点的下一个节点为result：
+   ![image.png](https://pic.leetcode-cn.com/1660184760-hiYRCA-image.png)
+   （3）判断这两个节点后是否还有大于等于2个的节点，若没有，令result指向的节点为tem，结束退出：
+   ![image.png](https://pic.leetcode-cn.com/1660184887-Awahgo-image.png)
+   （4）若后续还有大于等于2个的节点，令node指向tem的下一节点，令result的下一个节点为node，之后令result指向tem节点：
+   ![image.png](https://pic.leetcode-cn.com/1660185506-AamEFI-image.png)
+   ![image.png](https://pic.leetcode-cn.com/1660185537-pi***g-image.png)
+   （5）重复（2）、（3）、（4）的步骤，最后返回head：
+   ![image.png](https://pic.leetcode-cn.com/1660185685-AQqieR-image.png)
+3. 本程序提交结果：
+   ![image.png](https://pic.leetcode-cn.com/1660185793-hiJfye-image.png)
+
