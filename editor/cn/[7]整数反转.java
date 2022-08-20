@@ -54,7 +54,6 @@ class Solution {
             }
             k = p + k * 10;
             x /= 10;
-
         }
         return k;
     }
