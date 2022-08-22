@@ -1,0 +1,63 @@
+### 解题思路
+
+按题意模拟即可。
+
+只是哈希 不用HashMap，用一个**长度为9的布尔数组**即可，因为只有'1'~'9' 9个数字而已。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    private static final int SIZE = 9;
+    private static final int GRID_SIZE = SIZE / 3;
+
+    public boolean isValidSudoku(char[][] board) {
+        // Check each row
+        for (int r = 0; r < SIZE; r++) {
+            if (!isValidRegion(board, r, r, 0, SIZE - 1)) {
+                return false;
+            }
+        }
+
+        // Check each column
+        for (int c = 0; c < SIZE; c++) {
+            if (!isValidRegion(board,  0, SIZE - 1, c, c)) {
+                return false;
+            }
+        }
+
+        // Check each sub grid
+        for (int gr = 0; gr < GRID_SIZE; gr++) {
+            for (int gc = 0; gc < GRID_SIZE; gc++) {
+                if (!isValidRegion(board, gr * 3, gr * 3 + 2, gc * 3, gc * 3 + 2)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isValidRegion(char[][] board, int top, int down, int left, int right) {
+        boolean[] flags = new boolean[SIZE];
+        for (int r = top; r <= down; r++) {
+            for (int c = left; c <= right; c++) {
+                char ch = board[r][c];
+                if (!Character.isDigit(ch)) {
+                    continue;
+                }
+                int idx = ch - '1';
+                if (flags[idx]) {
+                    return false;
+                }
+                flags[idx] = true;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
