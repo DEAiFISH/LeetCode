@@ -44,7 +44,19 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int longestValidParentheses(String s) {
+        LinkedList<Integer> stack = new LinkedList<>();
+        int res = 0;
 
+        for (int i = 0; i < s.length(); i++) {
+            if (stack.isEmpty() || s.charAt(i) == '(' || s.charAt(stack.getLast()) == ')') {
+                stack.addLast(i);
+            } else {
+                stack.removeLast();
+                res = Math.max(res, stack.isEmpty() ? i + 1 : i - stack.getLast());
+            }
+        }
+        return res;
     }
 }
+
 //leetcode submit region end(Prohibit modification and deletion)
