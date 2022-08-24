@@ -1,0 +1,47 @@
+### 解题思路
+
+注意.核心就是字母转换，以及跳过不是子母和数字的逻辑；
+1.判断是否是空串，直接返回；
+2.先给他都转小写，转化为字符数组，用于后边获取判断；
+3.用两个指针去分别从左和右移动，比较；
+3.1 大原则是左要小于右；
+3.2 在大原则基础下，要跳过不是字母和数字的字符 左指针；
+3.3 在大原则基础下，要跳过不是字母和数字的字符 右指针；
+3.4 左右指针移动到字母数字后则开始比较，不相等直接返回false就行；
+4.等大原则执行完，则都相等，那么就返回true就行了；
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public boolean isPalindrome(String s) {
+        if(s.length()==0){
+            return true;
+        }
+        char[] charArray = s.toLowerCase().toCharArray();
+        int left =0;
+        int right =charArray.length-1;
+        while(left<right){
+            //1.左小于右的大原则；2.要跳过不是字母和数字的字符
+            while(left<right && !Character.isLetterOrDigit(charArray[left])){
+                left++;
+            }
+            //1.左小于右的大原则；2.因为要跳过不是字母和数字的字符
+            while(left<right && !Character.isLetterOrDigit(charArray[right])){
+                right--;
+            }
+            //比较是否相同
+            if(charArray[left] != charArray[right]){
+                return false;
+            }
+            //左右一比较就要同时移动
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
+```
+
