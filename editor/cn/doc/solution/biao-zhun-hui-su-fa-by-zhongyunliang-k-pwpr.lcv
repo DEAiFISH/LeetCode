@@ -1,0 +1,58 @@
+### 解题思路
+
+注意当满足条件时，遍历到叶子结点且路径和等于目标和时，需不需要return是一个易错点
+
+### 代码
+
+* java
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    List<Integer> path = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        DFS(root, targetSum, 0);
+        return res;
+    }
+
+    public void DFS(TreeNode root, int targetSum, int pathSum){
+        if(root == null){
+            return;
+        }
+
+        path.add(root.val);
+        pathSum += root.val;
+
+        if(targetSum == pathSum && root.left == null && root.right == null){
+            res.add(new ArrayList<>(path));
+            //这里加不加return是一个易错点，如果加return如果不在这之前remove掉path最后一位数，将导致path直接返回，不会执行后面的回溯操作
+            //return前必须重置path，否则会跳过最后的remove，会少删除一次，path会多一位数
+            //或者可以不要return，直接将符合条件的路径拷贝加入到结果集中，顺利执行remove回溯操作
+            //path.remove(path.size() - 1);
+            //return;
+        }
+
+        DFS(root.left, targetSum, pathSum);
+        DFS(root.right, targetSum, pathSum);
+
+        pathSum -= root.val;
+        path.remove(path.size() - 1);
+    }
+}
+```
+

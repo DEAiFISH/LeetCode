@@ -1,0 +1,146 @@
+### Java DFS的三种方式
+
+这三种方式主要在回溯的逻辑上稍微有些不同，主要体现在：
+
+### 1.前两种方式
+
+前两种方式代码只是略有差异，本质是一类，第二种只是为了更好地理解回溯，所以在这里也写出来
+给大家看一下
+
+* java
+
+```java
+if(node==null) return;
+```
+
+这行代码很简单，当递归执行到叶子节点的左/右子节点判断为null,然后结束本条路径的递归,但是很关键。
+
+有些小伙伴觉得就是应该调用左节点，剪一次枝，调用右节点，剪一次枝，那下面来推导下
+举个例子：假如我把第一种方式的代码改成
+
+* java
+
+```java
+preOrder(node.left,targetSum-node.val,path);
+path.removeLast(); //回溯
+preOrder(node.right,targetSum-node.val,path);
+path.removeLast(); //回溯
+```
+
+假设现在某条路径递归执行到了一个叶子结点，然后
+1.调用他的左子节点，左子节点直接返回null,
+2.叶子节点继续执行path.removeLast();叶子节点被删除，
+3.然后调用他的右子节点，右子节点直接返回null,
+4.叶子节点继续执行path.removeLast();叶子节点**父节点被删除**
+这就出现问题了,本来回溯前剪枝只应该删除当前叶子节点，现在把他的父节点也给剪没了！
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    ArrayList<List<Integer>> ans = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        if(root==null) return ans;
+        LinkedList<Integer> path = new LinkedList<>();
+        preOrder(root,targetSum,path);
+        return ans;
+    }
+    public void preOrder(TreeNode node,int targetSum,LinkedList<Integer> path){
+        if(node==null) return;  //判断为null结束本条路径的递归
+        path.offer(node.val);
+        if(node.val==targetSum && node.left==null && node.right==null){
+            ans.add(new LinkedList(path));
+        }
+        preOrder(node.left,targetSum-node.val,path);
+        preOrder(node.right,targetSum-node.val,path);
+        path.removeLast(); //回溯
+    }
+}
+```
+
+* java
+
+```java
+class Solution {
+    ArrayList<List<Integer>> ans = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        if(root==null) return ans;//判断为null结束本条路径的递归
+        LinkedList<Integer> path = new LinkedList<>();
+        preOrder(root,targetSum,path);
+        return ans;
+    }
+    public void preOrder(TreeNode node,int targetSum,LinkedList<Integer> path){
+        if(node==null) return;
+        path.offer(node.val);
+        if(node.val==targetSum && node.left==null && node.right==null){
+            ans.add(new LinkedList(path));
+            path.removeLast(); //成功找到目标值回溯
+            return;
+        }
+        preOrder(node.left,targetSum-node.val,path);
+        preOrder(node.right,targetSum-node.val,path);
+        path.removeLast(); //回溯
+    }
+}
+```
+
+### 2.第三种方式
+
+* java
+
+```java
+if(node.left!=null){
+    preOrder(node.left,targetSum-node.val,path);
+    path.removeLast();
+}
+if(node.right!=null){
+    preOrder(node.right,targetSum-node.val,path);
+    path.removeLast();
+}
+```
+
+大家看下这种方式和第一种有什么差异，这里加了判断，也就是说当某条路径递归执行到叶子结点，便不会往下执行了，
+本条路径递归直接结束，根本不会执行到上面所说的叶子节点的左右孩子节点
+
+**上面所说的结束某条路径递归的逻辑便是影响回溯的逻辑！！！前两种方式由于会执行到叶子节点的左/右节点，
+在叶子节点回溯前剪枝时会导致path中增加了一个元素(当前叶子节点)，删除了两个,而第三种方式由于加了判断，不会出现这种情况**
+
+回溯的目的是在处理完当前节点返回给上层节点之前删除掉本次生成的数据，以免影响到后续处理父节点的左/右子节点以及父节点，
+这就是为什么有的看起来只调用了一次回溯，有的看起来调用了两次回溯，但实际他们达到的剪枝效果是一样的
+
+个人理解，可能描述不是很专业，有不对的地方欢迎指正
+下面是代码以及注释
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    ArrayList<List<Integer>> ans = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        if(root==null) return ans;
+        LinkedList<Integer> path = new LinkedList<>();
+        preOrder(root,targetSum,path);
+        return ans;
+    }
+    public void preOrder(TreeNode node,int targetSum,LinkedList<Integer> path){
+        path.offer(node.val);
+        if(node.val==targetSum && node.left==null && node.right==null){
+            ans.add(new LinkedList(path));
+            return;
+        }
+        if(node.left!=null){  
+            preOrder(node.left,targetSum-node.val,path);
+            path.removeLast(); //回溯
+        }
+        if(node.right!=null){
+            preOrder(node.right,targetSum-node.val,path);
+            path.removeLast(); //回溯
+        }
+    }
+}
+```
+
