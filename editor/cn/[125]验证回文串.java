@@ -46,29 +46,32 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean isPalindrome(String s) {
-        if (s.length() == 0) {
-            return true;
-        }
-        char[] charArray = s.toLowerCase().toCharArray();
-        int left = 0;
-        int right = charArray.length - 1;
-        while (left < right) {
-            //1.左小于右的大原则；2.要跳过不是字母和数字的字符
-            while (left < right && !Character.isLetterOrDigit(charArray[left])) {
-                left++;
+        int len = s.length();
+
+        int l = 0;
+        int r = len - 1;
+
+        while (l < r) {
+            char lChar = s.charAt(l);
+            while (('A' > lChar || 'Z' < lChar && 'a' > lChar || 'z' < lChar) && l < r) {
+                l++;
+                lChar = s.charAt(l);
             }
-            //1.左小于右的大原则；2.因为要跳过不是字母和数字的字符
-            while (left < right && !Character.isLetterOrDigit(charArray[right])) {
-                right--;
+            char rChar = s.charAt(r);
+            while (('A' > rChar || 'Z' < rChar && 'a' > rChar || 'z' < rChar) && l < r) {
+                r--;
+                rChar = s.charAt(r);
             }
-            //比较是否相同
-            if (charArray[left] != charArray[right]) {
+
+            if (!(lChar + "").toUpperCase().equals((rChar + "").toUpperCase())) {
                 return false;
             }
-            //左右一比较就要同时移动
-            left++;
-            right--;
+
+            l++;
+            r--;
         }
+
+
         return true;
     }
 }
