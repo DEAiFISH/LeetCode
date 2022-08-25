@@ -1,0 +1,42 @@
+* 
+
+```
+class Solution {
+
+    public List<List<Integer>> ans = new ArrayList<>();
+    public List<Integer> path = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        boolean[] visited = new boolean[candidates.length];
+        backtrack(candidates, target, 0, 0, visited);
+        return ans;
+    }
+
+    private void backtrack(int[] candidates, int target, int sum, int startIndex, boolean[] visited) {
+        /* 回溯成功 */
+        if (target == sum) {
+            /* 使用path直接给list赋值 */
+            ArrayList<Integer> list = new ArrayList<>(path);
+            ans.add(list);
+        }
+        /* for循环中的判断条件是决定回溯是否继续下去的标准，即剪枝 */
+        for (int i = startIndex; i < candidates.length && candidates[i] + sum <= target; i++) {
+            /* 去重条件：当前值与前一个值相等，且前一个值未使用，表示分别存在包含前一个值和当前值的两组数据 */
+            if (i >0 && candidates[i - 1] == candidates[i] && ! visited[i - 1]) {
+                continue;
+            }
+            sum += candidates[i];
+            visited[i] = true;
+            path.add(candidates[i]);
+            /* 运行到backtrack表示添加candidates[i]，跳出当前循环 */
+            backtrack(candidates, target, sum, i + 1, visited);
+            /* 以下三步是对上述三步的回溯，表示不添加candidates[i]，继续当前循环 */
+            sum -= candidates[i];
+            visited[i] = false;
+            path.remove(path.size() - 1);
+        }
+    }
+}
+```
+
