@@ -1,0 +1,65 @@
+### 思路
+
+**(原地哈希）** $O(n)$
+对于一个长度为 $n$ 的数组，其中没有出现的最小正整数只能在$[1, n + 1]$中。这是因为如果$[1, n]$ 都出现了，那么答案是 $n + 1$，否则答案是$[1, n]$中没有出现的最小正整数。
+
+**我们使用原地哈希的思想：**
+1. 假设数组长度是$n$，我们通过某种规律的交换恢复数组，使得,$nums[0] = 1$, $nums[1] = 2$ … $nums[n - 1] = n$ ，即恢复完的数组中的每个数都应满足$nums[i] = i + 1$。如果某个$nums[i]$不满足，说明数组中缺失该$i + 1$数。以$[3, 4, -1, 1]$ 为例：恢复后的数组应当为 $[1, -1, 3, 4]$，其中$nums[1] ! =  (1 + 1)$我们就可以知道缺失的数为$2$。
+
+![图片.png](https://pic.leetcode-cn.com/1656176308-mAkFxr-%E5%9B%BE%E7%89%87.png)
+
+2. 那么我们如何将数组进行恢复呢？我们发现数组的值$num[i]$和下标i有一定的关系，即$nums[i] == nums[nums[i] - 1]$，下标$i == nums[i] - 1$。
+
+3. 因此我们可以对数组进行一次遍历。对于处在$[1,n]$之间的数$nums[i]$,如果其$nums[i] ！= nums[nums[i] - 1]$，我们就将n$ums[i$], $nums[nums[i] - 1]$不断进行交换，直到$nums[i] == nums[nums[i]-1]$。
+
+4. 若存在不在$[1, n]$区间的数时，则表示该数一定会在原数组占空间，且占到不能被对应的位置上，因此从小到大枚举，若$nums[i] != i + 1$，则表示$i + 1$这个数是第一个缺失的正数，若都没有缺失，那么$n + 1$就是第一个缺失的正数。
+
+**时间复杂度分析**：虽然看起来是是两层循环，但是最内层的$while$循环，每循环一次，就会将一个数放在正确的位置上，所以总共最多执行 $n$ 次，因此总的时间复杂度为 $O(n$。  
+**空间复杂度分析**：没有用到额外的数组，因此空间复杂度为$O(1)$ 。
+
+### C++代码
+
+* c++
+
+```c++
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int n = nums.size();
+        for(int i = 0; i < n; i++){
+            while(nums[i] >= 1 && nums[i] <= n && nums[i] != nums[nums[i] - 1]){
+                swap(nums[i], nums[nums[i] - 1]);
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(nums[i] != i + 1)
+                return i + 1;
+        }
+        return n + 1;
+    }
+};
+```
+
+### Java代码
+
+* java
+
+```java
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        for(int i = 0; i < n; i++){
+            while(nums[i] >= 1 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
+                 int temp = nums[nums[i] - 1];
+                 nums[nums[i] - 1] = nums[i];
+                 nums[i] = temp;
+            }
+        }
+        for(int i = 0; i < n ; i++)
+            if( nums[i] != i + 1)
+                return i + 1;
+        return n + 1;  
+    }
+}
+```
+
