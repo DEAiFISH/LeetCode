@@ -1,0 +1,30 @@
+### 解题思路
+
+我们可以把矩形切成4块，我们只要旋转其中的一块就行了，为了方便我们就旋转(0,0)到(n/2,(n+1)/2)为矩形的所有点就行，用临时变量t保存该区域的点。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for(int i = 0; i < n >> 1; i++) {   //遍历要旋转的区域
+            for(int j = 0; j < (n + 1) >> 1; j++) {
+                int t = matrix[i][j];   //先保存该区域的点
+                matrix[i][j] = matrix[n - j - 1][i];    //把该区域下面的点旋转到该区域
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];  //把该区域右下角的点旋转到该区域下面  
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];  //把该区域右边的点旋转到该区域右下角
+                matrix[j][n - i - 1] = t;   //将该区域的点旋转到该区域右边
+            }
+        }
+    }
+}
+```
+
+### 复杂度分析
+
+- 时间复杂度：$O(n^2)$
+- 空间复杂度：$O(1)$
+
