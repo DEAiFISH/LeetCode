@@ -1,0 +1,21 @@
+* java
+
+```java
+class Solution {
+    public boolean canJump(int[] nums) {
+        //从后往前遍历，若某一节点可以跳到index节点，则截断后面的节点
+        //若最后index不在0处，则返回false
+        int len = nums.length;
+        int index = len-1;
+        for(int i=index-1;i>=0;i--){
+            if(nums[i]>=(index-i)){
+                index = i;//截断操作
+            }
+        }
+        if(index>0) return false;
+        else return true;
+
+    }
+}
+```
+
