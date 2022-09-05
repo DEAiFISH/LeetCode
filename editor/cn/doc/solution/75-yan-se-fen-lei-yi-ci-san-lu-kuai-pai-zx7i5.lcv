@@ -1,0 +1,37 @@
+### 解题思路
+
+一次遍历，三路快排，双指针。
+用i遍历数组：
+[0...zero]是0, [two...len-1]是2，[zero+1...i-1]是1；
+如果nums[i] == 1, i++即可；
+如果nums[i] == 0, 交换nums[i]和nums[zero+1]，zero++，i++；
+如果nums[i] == 2, 交换nums[i]和nums[two-1],two--。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public void sortColors(int[] nums) {
+        int zero = -1;
+        int two = nums.length;  //[0...zero]是0,[two...len-1]是2
+        int i = 0;
+        while(i < two){
+            int tmp;
+            if(nums[i] == 0) {
+                tmp = nums[zero+1];
+                nums[++zero] = nums[i];
+                nums[i++] = tmp;
+            }else if(nums[i] == 2){
+                tmp = nums[i];
+                nums[i] = nums[two-1];
+                nums[--two] = tmp;
+            }else {
+                i++;
+            }
+        }
+    }
+}
+```
+
