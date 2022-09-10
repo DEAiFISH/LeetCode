@@ -1,0 +1,41 @@
+### 解题思路
+
+哎，我解题解尴尬了
+
+### 代码
+
+* java
+
+```java
+class Solution {
+        public void moveZeroes(int[] nums) {
+            //首先找到第一个0的位置
+            int left=0,right=0,flag=0;//双指针
+            for (int i=0;i<nums.length;i++){
+                if (nums[i]==0){
+                    left=i;
+                    flag++;
+                    break;
+                }
+            }
+            //此时慢指针left指向0 的位置 快指针指向0的后面的位置
+            right=left+1;
+            int temp=0;
+            while(flag!=0&&right<nums.length){
+                if(nums[right]!=0){
+                    //如果此时快指的元素为0 则和慢指针互换元素，同时慢指针到快指针的位置
+                    temp=nums[right];
+                    nums[right]=nums[left];
+                    nums[left]=temp;
+                    left++;
+                    right++;
+                }else{
+                    right++;
+                }
+            }
+            
+            }
+        }
+```
+
+![移动零.png](https://pic.leetcode-cn.com/1621847557-bFdVSj-%E7%A7%BB%E5%8A%A8%E9%9B%B6.png)
