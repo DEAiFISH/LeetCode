@@ -48,26 +48,18 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        int i = 0;
-        int flag = 0;
-        int length = 0;
-        int result = 0;
-        while (i < s.length()) {
-            int pos = s.indexOf(s.charAt(i), flag);
-            if (pos < i) {
-                if (length > result) {
-                    result = length;
-                }
-                if (result >= s.length() - pos - 1) {
-                    return result;
-                }
-                length = i - pos - 1;
-                flag = pos + 1;
+        int n = s.length(), ans = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int end = 0, start = 0; end < n; end++) {
+            char alpha = s.charAt(end);
+            if (map.containsKey(alpha)) {
+                start = Math.max(map.get(alpha), start);
             }
-            length++;
-            i++;
+            ans = Math.max(ans, end - start + 1);
+            map.put(s.charAt(end), end + 1);
         }
-        return length;
+        return ans;
     }
 }
+
 //leetcode submit region end(Prohibit modification and deletion)
