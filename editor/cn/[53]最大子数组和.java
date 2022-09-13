@@ -51,7 +51,6 @@ class Solution {
             if (sum > 0) {
                 sum += num;
             } else {
-
                 sum = num;
             }
             ans = Math.max(ans, sum);
