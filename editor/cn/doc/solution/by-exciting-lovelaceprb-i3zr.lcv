@@ -1,0 +1,20 @@
+### 解题思路
+
+此处撰写解题思路
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public boolean isAnagram(String s, String t) {
+      char[] ss=s.toCharArray();
+      char[] st=t.toCharArray();
+      Arrays.sort(ss);
+      Arrays.sort(st);
+      return Arrays.equals(ss,st);
+    }
+}
+```
+
