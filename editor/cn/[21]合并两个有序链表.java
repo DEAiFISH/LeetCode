@@ -49,21 +49,37 @@
 class Solution {
 
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode newHead = new ListNode(0);//建立伪头节点
-        ListNode cur = newHead;//让cur指针指向伪头节点
-        while (list1 != null && list2 != null) {//循环条件,当有一个链表的节点的next指针指向空就跳出。
+        if (list1 == null) {
+            return list2;
+        } else if (list2 == null) {
+            return list1;
+        }
+        ListNode res = new ListNode();
+        ListNode temp;
+        if (list1.val <= list2.val) {
+            res.next = list1;
+            list1 = list1.next;
+        } else {
+            res.next = list2;
+            list2 = list2.next;
+        }
+        temp = res.next;
+        while (list1 != null && list2 != null) {
             if (list1.val < list2.val) {
-                cur.next = list1;//小于则让cur指针指向它
-                list1 = list1.next;//list1指向下一个节点
+                temp.next = list1;
+                temp = temp.next;
+                list1 = list1.next;
             } else {
-                cur.next = list2;
+                temp.next = list2;
+                temp = temp.next;
                 list2 = list2.next;
             }
-            cur = cur.next;//cur指针指向那个更小的节点
         }
-//当有一个链表节点已经遍历完之后,另外一个链表剩余的节点不用遍历了，直接让cur指向它们就可以了。
-        cur.next = list1 == null ? list2 : list1;
-        return newHead.next;
+
+        temp.next = list1 == null ? list2 : list1;
+
+        return res.next;
+
     }
 }
 
