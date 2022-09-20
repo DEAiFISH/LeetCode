@@ -1,0 +1,40 @@
+### 解题思路
+
+此处撰写解题思路
+
+### 代码
+
+* python3
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseBetween(self, head: ListNode, left: int, right: int) -> ListNode:
+        #1.pre cur 2.pre2 cur2 3.反转 4.拼接
+        dummy = ListNode(-1)
+        dummy.next = head
+        p = dummy
+        for _ in range(1,left):
+            p=p.next
+        pre,cur = p,p.next
+        pre2 = pre
+        cur2 = cur
+        for _ in range(left,right+1):
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
+        pre2.next = pre
+        cur2.next = cur
+        return dummy.next
+            
+        
+        
+        
+            
+```
+
