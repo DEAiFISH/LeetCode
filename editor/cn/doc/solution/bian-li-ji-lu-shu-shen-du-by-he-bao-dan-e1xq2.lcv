@@ -1,0 +1,42 @@
+* 
+
+```
+public class Solution {
+    public int maxDepth = -1;
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+
+        List<List<Integer>>  lists = new ArrayList<List<Integer>>();
+//        if(root==null){
+//            return lists;
+//        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        inorderTraversal(root, 0,map);
+        for(int i=0;i<=maxDepth;i++){
+            lists.add(map.get(i));
+        }
+        return lists;
+    }
+
+    private void inorderTraversal(TreeNode tree, int depth, Map<Integer, List<Integer>> map) {
+        if (tree == null) {
+            if (depth - 1 > maxDepth) {
+                maxDepth = depth - 1;
+            }
+            return;
+        }
+        inorderTraversal(tree.left, depth + 1, map);
+//        System.out.println("val:" + tree.val + ",depth:" + depth);
+        if (map.containsKey(depth)) {
+            map.get(depth).add(tree.val);
+        } else {
+            List<Integer> list = new ArrayList<>();
+            list.add(tree.val);
+            map.put(depth, list);
+        }
+        inorderTraversal(tree.right, depth + 1, map);
+    }
+}
+```
+
+难度不大，直接上代码，但是最开始maxDepth设置初始值为0，导致当树为null时，返回的list会有一个元素，该元素内容为null，与预期结果list没有元素不符合，所以最后一个测试案例未通过

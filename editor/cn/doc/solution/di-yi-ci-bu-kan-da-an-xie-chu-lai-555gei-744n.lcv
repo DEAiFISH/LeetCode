@@ -1,0 +1,43 @@
+### 解题思路
+
+此处撰写解题思路
+
+### 代码
+
+* java
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int maxDepth(TreeNode root) {
+        int max = 0;
+        return getDepth(root,max,0);
+    }
+
+    public int getDepth(TreeNode root,int max,int length){
+        max = max > length ? max : length;
+        if (root == null){
+            return max > length ? max : length;
+        }
+        length += 1;
+        int left = getDepth(root.left,max,length);
+        int right = getDepth(root.right,max,length);
+        return left > right ? left : right;
+    }
+}
+```
+
