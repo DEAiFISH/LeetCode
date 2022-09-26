@@ -1,0 +1,42 @@
+### 解题思路
+
+根据二叉查找树的特点，如果pq的值都小于当前节点的值，则pq在当前节点的左子树中，都大于则在右子树中，一左一右则当前节点就是pq的公共祖先
+
+### 代码
+
+* java
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // 传入的节点为空或从二叉树中没找到pq节点时，则直接返回null
+        if (root == null || p == null || q == null) {
+            return null;
+        }
+        // 当前节点为pq节点时，则找到了pq，直接返回pq
+        if (root.val == p.val || root.val == q.val) {
+            return root;
+        }
+        // 如果pq的值都小于当前节点的值，则pq在当前节点的左子树中,都大于则在右子树中，一左一右则当前节点就是pq的公共祖先
+        if (root.val > p.val && root.val > q.val) {
+            // 从左右子树子树中找公共祖先节点，可能是null，也可能是pq，还可能是公共祖先
+            return this.lowestCommonAncestor(root.left, p, q);
+        } else if (root.val < p.val && root.val < q.val) {
+            return this.lowestCommonAncestor(root.right, p, q);
+        } else {
+            return root;
+        }
+    }
+}
+```
+
