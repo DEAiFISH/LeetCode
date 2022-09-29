@@ -32,11 +32,12 @@
 
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int[][] merge(int[][] intervals) {
-        Arrays.sort(intervals, (v1, v2) -> v1[0] - v2[0]);
+        Arrays.sort(intervals, Comparator.comparingInt(v -> v[0]));
 
         int[][] res = new int[intervals.length][2];
         int index = -1;
