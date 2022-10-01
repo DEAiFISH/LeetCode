@@ -1,0 +1,40 @@
+其实作为一个新手，我感觉贪心算法难在如何界定“贪”，“贪”在哪里，哪里需要最优
+
+在这个问题里面，其实我很难发现需要最优的地方，这也是这道题的难点
+
+在这个问题里面，要使得删去重叠区间个数最小，也就是在有限的空间（假定）存放的区间个数最多，
+那么要使得在有限空间存放区间个数最多
+就要使得每一个区间的长度最短
+
+在官方题解里面是根据右边界来排序的，这样可以使得单位区间的长度最短
+
+下面是官方题解+个人注释
+
+* 
+
+```
+class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+//这一题用贪心的原因在于每一次我们都贪心的选择右边界小的的范围（在有限的边界内，右边界小的放的个数多，那么删除的就少）  
+        //特判
+        if(intervals.length==0) return -1;
+        Arrays.sort(intervals,new Comparator<int[]>(){
+            public int compare(int []com1,int []com2){
+                return com1[1]-com2[1];
+            }
+        });
+        //按右边界来排序，实际上这一步是贪心算法的关键，因为排序过后才能从低到高依次选择
+        int ans=1;
+        //必选的是第一位的
+        int right=intervals[0][1];
+        for(int i=1;i<intervals.length;++i){
+            if(intervals[i][0]>=right){
+                ans++;
+                right=intervals[i][1];
+            }
+        }
+        return intervals.length-ans;
+    }
+}
+```
+
