@@ -37,7 +37,6 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
-import javax.swing.tree.TreeNode;
 import java.util.List;
 
 /**
@@ -57,7 +56,48 @@ import java.util.List;
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        ArrayDeque<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        int count = 1;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> curList = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                //奇数层，从左往右弹，从右往左添加
+                if (count % 2 == 1) {
+                    TreeNode cur = queue.pollFirst();
+                    curList.add(cur.val);
+                    //保证结点在队列中的顺序，先加左结点到Last,再加右结点到Last
+                    if (cur.left != null) {
+                        queue.addLast(cur.left);
+                    }
+                    if (cur.right != null) {
+                        queue.addLast(cur.right);
+                    }
+                    //偶数层，从右往左弹，从左往右添加
+                } else {
+                    TreeNode cur = queue.pollLast();
+                    curList.add(cur.val);
+                    //保证结点在队列中的顺序，先加右结点到First,再加左结点到First
+                    if (cur.right != null) {
+                        queue.addFirst(cur.right);
+                    }
+                    if (cur.left != null) {
+                        queue.addFirst(cur.left);
+                    }
+                }
+            }
+            if (!curList.isEmpty()) {
+                res.add(curList);
+            }
+            count++;
+        }
+        return res;
     }
 }
+
 //leetcode submit region end(Prohibit modification and deletion)
