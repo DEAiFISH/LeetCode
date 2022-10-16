@@ -1,0 +1,36 @@
+[详细刷题视频合集](https://xiaochen1024.com/series/6196129fc1553b002e57bef5/6196208ec1553b002e57bef6)      
+[刷题笔记](https://xiaochen1024.com/courseware/60b4f11ab1aa91002eb53b18)
+给该函数创建一个res保存数组，二叉搜索树通过中序遍历得到的数组是递增的。
+所以当返回下一个最小的值，只需要控制好定义好的索引值，返回就行了。
+
+* 
+
+```
+var BSTIterator = function(root) {
+    let res = []
+    function dfs(root){
+        if(!root){
+            return;
+        }
+        dfs(root.left)
+        res.push(root.val)
+        dfs(root.right)
+    }
+    dfs(root)
+    this.res = res;
+    this.index = 0;
+};
+
+BSTIterator.prototype.next = function() {
+    return this.res[this.index++]
+};
+
+BSTIterator.prototype.hasNext = function() {
+    if(this.index >= this.res.length){
+        return false;
+    }
+    return true;
+};
+
+```
+
