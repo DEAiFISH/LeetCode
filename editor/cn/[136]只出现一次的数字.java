@@ -26,7 +26,6 @@ class Solution {
         for (int i = 1; i < nums.length; i++) {
             res ^= nums[i];
         }
-
         return res;
     }
 }
