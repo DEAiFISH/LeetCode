@@ -1,0 +1,306 @@
+# 前言
+
+由于给定的图是双向图，每条边都是双向边，因此对于同一条边连接的两个顶点，可以从其中任意一个顶点到达另一个顶点。
+
+判断是否存在从顶点 $\textit{source}$ 到顶点 $\textit{destination}$ 的有效路径，等价于判断顶点 $\textit{source}$ 和顶点 $\textit{destination}$ 是否连通。连通性问题可以使用广度优先搜索或深度优先搜索解决，也可以使用并查集解决。
+
+# 解法一
+
+## 思路和算法
+
+使用广度优先搜索判断是否存在从顶点 $\textit{source}$ 到顶点 $\textit{destination}$ 的有效路径，需要从顶点 $\textit{source}$ 开始依次遍历每一层的顶点，判断可以到达顶点 $\textit{destination}$。
+
+由于题目中的图的表示方式是边数组，为了方便处理，需要首先将边数组转换成邻接顶点列表的形式，转换后可以在 $O(1)$ 时间获得一个顶点的全部相邻顶点，然后使用广度优先搜索遍历图。
+
+广度优先搜索需要使用哈希表（或数组）记录每个顶点的访问状态，使用队列存储最近访问过的顶点。初始时将顶点 $\textit{source}$ 设为已访问，并将其入队列。每次将一个顶点 $\textit{vertex}$ 出队列，对于每个与 $\textit{vertex}$ 相邻且未访问的顶点 $\textit{next}$，将 $\textit{next}$ 设为已访问，并将其入队列。当队列为空或访问到顶点 $\textit{destination}$ 时，遍历结束，将顶点 $\textit{destination}$ 的访问状态返回。
+
+## 代码
+
+* [sol1-Java]
+
+```Java
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        List<Integer>[] adjacentArr = new List[n];
+        for (int i = 0; i < n; i++) {
+            adjacentArr[i] = new ArrayList<Integer>();
+        }
+        for (int[] edge : edges) {
+            adjacentArr[edge[0]].add(edge[1]);
+            adjacentArr[edge[1]].add(edge[0]);
+        }
+        boolean[] visited = new boolean[n];
+        visited[source] = true;
+        Queue<Integer> queue = new ArrayDeque<Integer>();
+        queue.offer(source);
+        while (!queue.isEmpty() && !visited[destination]) {
+            int vertex = queue.poll();
+            List<Integer> adjacent = adjacentArr[vertex];
+            for (int next : adjacent) {
+                if (!visited[next]) {
+                    visited[next] = true;
+                    queue.offer(next);
+                }
+            }
+        }
+        return visited[destination];
+    }
+}
+```
+
+* [sol1-C#]
+
+```C#
+public class Solution {
+    public bool ValidPath(int n, int[][] edges, int source, int destination) {
+        IList<int>[] adjacentArr = new IList<int>[n];
+        for (int i = 0; i < n; i++) {
+            adjacentArr[i] = new List<int>();
+        }
+        foreach (int[] edge in edges) {
+            adjacentArr[edge[0]].Add(edge[1]);
+            adjacentArr[edge[1]].Add(edge[0]);
+        }
+        bool[] visited = new bool[n];
+        visited[source] = true;
+        Queue<int> queue = new Queue<int>();
+        queue.Enqueue(source);
+        while (queue.Count > 0 && !visited[destination]) {
+            int vertex = queue.Dequeue();
+            IList<int> adjacent = adjacentArr[vertex];
+            foreach (int next in adjacent) {
+                if (!visited[next]) {
+                    visited[next] = true;
+                    queue.Enqueue(next);
+                }
+            }
+        }
+        return visited[destination];
+    }
+}
+```
+
+## 复杂度分析
+
+- 时间复杂度：$O(n + m)$，其中 $n$ 是图中的顶点数，$m$ 是图中的边数。广度优先搜索的时间复杂度由顶点数和边数决定。
+
+- 空间复杂度：$O(n + m)$，其中 $n$ 是图中的顶点数，$m$ 是图中的边数。空间复杂度主要取决于邻接顶点列表、记录每个顶点访问状态的数组和队列，邻接顶点列表需要 $O(n + m)$ 的空间，记录每个顶点访问状态的数组和队列需要 $O(n)$ 的空间。
+
+# 解法二
+
+## 思路和算法
+
+使用深度优先搜索判断是否存在从顶点 $\textit{source}$ 到顶点 $\textit{destination}$ 的有效路径，需要从顶点 $\textit{source}$ 开始依次遍历每一条路径，判断可以到达顶点 $\textit{destination}$。
+
+由于题目中的图的表示方式是边数组，为了方便处理，需要首先将边数组转换成邻接顶点列表的形式，转换后可以在 $O(1)$ 时间获得一个顶点的全部相邻顶点，然后使用深度优先搜索遍历图。
+
+深度优先搜索需要使用哈希表（或数组）记录每个顶点的访问状态。从顶点 $\textit{source}$ 开始遍历。每次访问一个顶点 $\textit{vertex}$ 时，将该顶点设为已访问，对于每个与 $\textit{vertex}$ 相邻且未访问的顶点 $\textit{next}$，递归地访问 $\textit{next}$。当没有更多顶点可以访问或访问到顶点 $\textit{destination}$ 时，遍历结束，将顶点 $\textit{destination}$ 的访问状态返回。
+
+## 代码
+
+* [sol2-Java]
+
+```Java
+class Solution {
+    List<Integer>[] adjacentArr;
+    boolean[] visited;
+
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        adjacentArr = new List[n];
+        for (int i = 0; i < n; i++) {
+            adjacentArr[i] = new ArrayList<Integer>();
+        }
+        for (int[] edge : edges) {
+            adjacentArr[edge[0]].add(edge[1]);
+            adjacentArr[edge[1]].add(edge[0]);
+        }
+        visited = new boolean[n];
+        return dfs(source, destination);
+    }
+
+    public boolean dfs(int vertex, int destination) {
+        visited[vertex] = true;
+        if (!visited[destination]) {
+            List<Integer> adjacent = adjacentArr[vertex];
+            for (int next : adjacent) {
+                if (!visited[next] && dfs(next, destination)) {
+                    return true;
+                }
+            }
+        }
+        return visited[destination];
+    }
+}
+```
+
+* [sol2-C#]
+
+```C#
+public class Solution {
+    IList<int>[] adjacentArr;
+    bool[] visited;
+
+    public bool ValidPath(int n, int[][] edges, int source, int destination) {
+        adjacentArr = new List<int>[n];
+        for (int i = 0; i < n; i++) {
+            adjacentArr[i] = new List<int>();
+        }
+        foreach (int[] edge in edges) {
+            adjacentArr[edge[0]].Add(edge[1]);
+            adjacentArr[edge[1]].Add(edge[0]);
+        }
+        visited = new bool[n];
+        return DFS(source, destination);
+    }
+
+    public bool DFS(int vertex, int destination) {
+        visited[vertex] = true;
+        if (!visited[destination]) {
+            IList<int> adjacent = adjacentArr[vertex];
+            foreach (int next in adjacent) {
+                if (!visited[next] && DFS(next, destination)) {
+                    return true;
+                }
+            }
+        }
+        return visited[destination];
+    }
+}
+```
+
+## 复杂度分析
+
+- 时间复杂度：$O(n + m)$，其中 $n$ 是图中的顶点数，$m$ 是图中的边数。深度优先搜索的时间复杂度由顶点数和边数决定。
+
+- 空间复杂度：$O(n + m)$，其中 $n$ 是图中的顶点数，$m$ 是图中的边数。空间复杂度主要取决于邻接顶点列表、记录每个顶点访问状态的数组和递归调用栈，邻接顶点列表需要 $O(n + m)$ 的空间，记录每个顶点访问状态的数组和递归调用栈需要 $O(n)$ 的空间。
+
+# 解法三
+
+## 预备知识
+
+该解法涉及到并查集。
+
+并查集是一种树型的数据结构，用于处理不相交集合的合并与查询问题。
+
+## 思路和算法
+
+这道题要求判断顶点 $\textit{source}$ 和顶点 $\textit{destination}$ 是否连通，连通性问题可以使用并查集解决。
+
+并查集初始化时，$n$ 个顶点分别属于 $n$ 个不同的集合，每个集合只包含一个顶点。
+
+初始化之后，遍历每条边，将同一条边连接的两个顶点所在的集合做合并。
+
+遍历所有的边之后，判断顶点 $\textit{source}$ 和顶点 $\textit{destination}$ 所在的集合是否相同，如果两个顶点所在的集合相同则两个顶点连通，如果两个顶点所在的集合不同则两个顶点不连通。
+
+## 代码
+
+* [sol3-Java]
+
+```Java
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        UnionFind uf = new UnionFind(n);
+        for (int[] edge : edges) {
+            uf.union(edge[0], edge[1]);
+            if (uf.find(source) == uf.find(destination)) {
+                return true;
+            }
+        }
+        return uf.find(source) == uf.find(destination);
+    }
+}
+
+class UnionFind {
+    private int[] parent;
+    private int[] rank;
+
+    public UnionFind(int n) {
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+        rank = new int[n];
+    }
+
+    public void union(int x, int y) {
+        int rootx = find(x);
+        int rooty = find(y);
+        if (rootx != rooty) {
+            if (rank[rootx] > rank[rooty]) {
+                parent[rooty] = rootx;
+            } else if (rank[rootx] < rank[rooty]) {
+                parent[rootx] = rooty;
+            } else {
+                parent[rooty] = rootx;
+                rank[rootx]++;
+            }
+        }
+    }
+
+    public int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+}
+```
+
+* [sol3-C#]
+
+```C#
+public class Solution {
+    public bool ValidPath(int n, int[][] edges, int source, int destination) {
+        UnionFind uf = new UnionFind(n);
+        foreach (int[] edge in edges) {
+            uf.Union(edge[0], edge[1]);
+            if (uf.Find(source) == uf.Find(destination)) {
+                return true;
+            }
+        }
+        return uf.Find(source) == uf.Find(destination);
+    }
+}
+
+class UnionFind {
+    private int[] parent;
+    private int[] rank;
+
+    public UnionFind(int n) {
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+        rank = new int[n];
+    }
+
+    public void Union(int x, int y) {
+        int rootx = Find(x);
+        int rooty = Find(y);
+        if (rootx != rooty) {
+            if (rank[rootx] > rank[rooty]) {
+                parent[rooty] = rootx;
+            } else if (rank[rootx] < rank[rooty]) {
+                parent[rootx] = rooty;
+            } else {
+                parent[rooty] = rootx;
+                rank[rootx]++;
+            }
+        }
+    }
+
+    public int Find(int x) {
+        if (parent[x] != x) {
+            parent[x] = Find(parent[x]);
+        }
+        return parent[x];
+    }
+}
+```
+
+## 复杂度分析
+
+- 时间复杂度：$O(n + m \times \alpha(m))$，其中 $n$ 是图中的顶点数，$m$ 是图中的边数，$\alpha$ 是反阿克曼函数。并查集的初始化需要 $O(n)$ 的时间，然后遍历 $m$ 条边执行 $m$ 次合并操作，最后对 $\textit{source}$ 和 $\textit{destination}$ 分别执行查询操作，这里的并查集使用了路径压缩和按秩合并，单次操作的时间复杂度是 $O(\alpha(m))$，因此并查集初始化之后的操作的时间复杂度是 $O(m \times \alpha(m))$，总时间复杂度是 $O(n + m \times \alpha(m))$。
+
+- 空间复杂度：$O(n)$，其中 $n$ 是图中的顶点数。并查集需要 $O(n)$ 的空间。
+
