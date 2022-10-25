@@ -39,9 +39,9 @@
 class Solution {
     public int climbStairs(int n) {
         int a = 1, b = 1, sum = 0;
-        if(n == 1)
+        if (n == 1)
             return n;
-        for(int i = 2; i <= n; i++){
+        for (int i = 2; i <= n; i++) {
             sum = a + b;
             a = b;
             b = sum;

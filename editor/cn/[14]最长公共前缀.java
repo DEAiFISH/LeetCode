@@ -30,8 +30,6 @@
 // Related Topics 字符串 👍 2025 👎 0
 
 
-import java.util.ArrayList;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public String longestCommonPrefix(String[] strs) {

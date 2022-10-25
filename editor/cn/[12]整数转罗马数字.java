@@ -87,7 +87,7 @@ class Solution {
             }
         } while (num != 0); // 当num为0时退出循环
         return sb.toString();
-        
+
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

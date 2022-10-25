@@ -64,25 +64,25 @@ class Solution {
         Stack<Character> ch = new Stack<>();
 
         for (char c : chars) {
-            if(c == ')' && !ch.isEmpty()){
-                if(ch.peek() == '('){
+            if (c == ')' && !ch.isEmpty()) {
+                if (ch.peek() == '(') {
                     ch.pop();
-                }else {
+                } else {
                     return false;
                 }
-            }else if(c == '}' && !ch.isEmpty()){
-                if(ch.peek() == '{'){
+            } else if (c == '}' && !ch.isEmpty()) {
+                if (ch.peek() == '{') {
                     ch.pop();
-                }else {
+                } else {
                     return false;
                 }
-            }else if(c == ']' && !ch.isEmpty()){
-                if(ch.peek() == '['){
+            } else if (c == ']' && !ch.isEmpty()) {
+                if (ch.peek() == '[') {
                     ch.pop();
-                }else {
+                } else {
                     return false;
                 }
-            }else{
+            } else {
                 ch.push(c);
             }
         }

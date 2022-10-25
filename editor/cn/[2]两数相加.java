@@ -43,8 +43,6 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 
 
-import java.util.List;
-
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -60,12 +58,12 @@ class Solution {
         ListNode res = new ListNode();
         ListNode cur = res;
         int k = 0;
-        while(l1 != null || l2 != null){
-            int a = 0,b = 0;
-            if(l1 != null){
+        while (l1 != null || l2 != null) {
+            int a = 0, b = 0;
+            if (l1 != null) {
                 a = l1.val;
             }
-            if(l2 != null){
+            if (l2 != null) {
                 b = l2.val;
             }
             int sum = a + b + k;
@@ -75,15 +73,15 @@ class Solution {
             cur.next = new ListNode(sum);
             cur = cur.next;
 
-            if(l1 != null){
+            if (l1 != null) {
                 l1 = l1.next;
             }
-            if(l2 != null){
+            if (l2 != null) {
                 l2 = l2.next;
             }
         }
 
-        if(k > 0){
+        if (k > 0) {
             cur.next = new ListNode(k);
         }
 

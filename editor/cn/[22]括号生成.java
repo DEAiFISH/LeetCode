@@ -37,11 +37,11 @@ class Solution {
         if (n <= 0) {
             return res;
         }
-        dfs(n, "", res,0,0);
+        dfs(n, "", res, 0, 0);
         return res;
     }
 
-    private static void dfs(int n, String path, List<String> res,int left, int right) {
+    private static void dfs(int n, String path, List<String> res, int left, int right) {
         if (left > n || left < right) {
             return;
         }
@@ -50,8 +50,8 @@ class Solution {
             return;
         }
 
-        dfs(n, path + "(", res,left + 1, right);
-        dfs(n, path + ")", res,left,right + 1);
+        dfs(n, path + "(", res, left + 1, right);
+        dfs(n, path + ")", res, left, right + 1);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

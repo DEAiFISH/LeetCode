@@ -54,9 +54,6 @@
 // Related Topics 数组 双指针 排序 👍 1531 👎 0
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 

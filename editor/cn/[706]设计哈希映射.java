@@ -47,28 +47,6 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class MyHashMap {
-    private class Pair {
-        private int key;
-        private int value;
-
-        public Pair(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public int getKey() {
-            return key;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
-    }
-
     private static final int BASE = 769;
     private LinkedList[] data;
 
@@ -77,6 +55,10 @@ class MyHashMap {
         for (int i = 0; i < BASE; ++i) {
             data[i] = new LinkedList<Pair>();
         }
+    }
+
+    private static int hash(int key) {
+        return key % BASE;
     }
 
     public void put(int key, int value) {
@@ -116,8 +98,26 @@ class MyHashMap {
         }
     }
 
-    private static int hash(int key) {
-        return key % BASE;
+    private class Pair {
+        private int key;
+        private int value;
+
+        public Pair(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public int getKey() {
+            return key;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }
     }
 }
 

@@ -38,7 +38,9 @@
 // Related Topics 数组 双指针 排序 👍 1333 👎 0
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {

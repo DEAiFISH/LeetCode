@@ -54,11 +54,11 @@ import java.util.Comparator;
 /**
  * Definition for singly-linked list.
  * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * int val;
+ * ListNode next;
+ * ListNode() {}
+ * ListNode(int val) { this.val = val; }
+ * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
 class Solution {
@@ -73,7 +73,7 @@ class Solution {
             }
         }
         int size = arrayList.size();
-        if(size == 0){
+        if (size == 0) {
             return null;
         }
         arrayList.sort(Comparator.naturalOrder());

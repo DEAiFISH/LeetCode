@@ -37,24 +37,24 @@ class Solution {
 
         int carry = 0;
 
-        while(i >= 0 || j >= 0){
+        while (i >= 0 || j >= 0) {
 
             int digitA = 0;
-            if(i >= 0){
+            if (i >= 0) {
                 digitA = a.charAt(i) - '0';
             }
 
             int digitB = 0;
-            if(j >= 0){
+            if (j >= 0) {
                 digitB = b.charAt(j) - '0';
             }
 
             int sum = digitA + digitB + carry;
 
-            if(sum >= 2){
-                carry =  1;
+            if (sum >= 2) {
+                carry = 1;
                 sum -= 2;
-            }else{
+            } else {
                 carry = 0;
             }
 
@@ -64,7 +64,7 @@ class Solution {
             stringBuilder.append(sum);
         }
 
-        if(carry == 1){
+        if (carry == 1) {
             stringBuilder.append(1);
         }
 

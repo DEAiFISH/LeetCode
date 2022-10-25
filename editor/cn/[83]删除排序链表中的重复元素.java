@@ -32,35 +32,31 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Definition for singly-linked list.
  * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * int val;
+ * ListNode next;
+ * ListNode() {}
+ * ListNode(int val) { this.val = val; }
+ * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        if(head == null){
+        if (head == null) {
             return head;
         }
         ListNode t = head;
         ListNode m = head;
 
 
-        while(t.next != null){
+        while (t.next != null) {
             t = t.next;
-            if(m.val != t.val){
+            if (m.val != t.val) {
                 m.next = t;
                 m = m.next;
-            }
-            else{
+            } else {
                 m.next = null;
             }
 

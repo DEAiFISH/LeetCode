@@ -54,7 +54,7 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int change(int amount, int[] coins) {
-        
+
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
