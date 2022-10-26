@@ -76,9 +76,7 @@ class Solution {
                 list2 = list2.next;
             }
         }
-
         temp.next = list1 == null ? list2 : list1;
-
         return res.next;
 
     }
