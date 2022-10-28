@@ -50,12 +50,9 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean exist(char[][] board, String word) {
-        int h = board.length, w = board[0].length;
-        boolean[][] visited = new boolean[h][w];
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                boolean flag = check(board, visited, i, j, word, 0);
-                if (flag) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == word.charAt(0) && dfs(board, word, i, j, 0)) {
                     return true;
                 }
             }
@@ -63,29 +60,24 @@ class Solution {
         return false;
     }
 
-    public boolean check(char[][] board, boolean[][] visited, int i, int j, String s, int k) {
-        if (board[i][j] != s.charAt(k)) {
-            return false;
-        } else if (k == s.length() - 1) {
+    private boolean dfs(char[][] board, String word, int i, int j, int index) {
+        if (index == word.length()) {
             return true;
         }
-        visited[i][j] = true;
-        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-        boolean result = false;
-        for (int[] dir : directions) {
-            int newi = i + dir[0], newj = j + dir[1];
-            if (newi >= 0 && newi < board.length && newj >= 0 && newj < board[0].length) {
-                if (!visited[newi][newj]) {
-                    boolean flag = check(board, visited, newi, newj, s, k + 1);
-                    if (flag) {
-                        result = true;
-                        break;
-                    }
-                }
-            }
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] != word.charAt(index)) {
+            return false;
         }
-        visited[i][j] = false;
-        return result;
+
+        board[i][j] = '.';
+
+        boolean flag = dfs(board, word, i + 1, j, index + 1) || dfs(board, word, i, j + 1, index + 1) || dfs(board, word, i - 1, j, index + 1) || dfs(board, word, i, j - 1, index + 1);
+
+        if (flag) {
+            return true;
+        }
+
+        board[i][j] = word.charAt(index);
+        return false;
     }
 }
 
