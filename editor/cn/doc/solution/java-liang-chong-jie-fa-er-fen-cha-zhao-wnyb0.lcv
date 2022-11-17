@@ -1,0 +1,92 @@
+- 解法一：二分查找
+  按照s中子母的顺序去查找words里面的单词是否存在，那么我们可以从words每一个单词开始对s里面的单词进行逐一比对。例如: acd,那么从s里面查找a后索引位置为i，那么从i+1开始继续查找c,直到查找完acd所有字符，那么代表该字符串为子序列。直接循环查找的时间复杂为O(n),那么对于某个字符下一次出现的位置可以使用二分查找进行寻找。
+  利用哈希表将所有字符出现的索引位置保存在一个集合里面，通过对该集合进行二分查找，例如对于acd中c的查找,当a在s中的索引值为i，那么接下来c的索引值必须大于等于i+1。
+- 时间复杂度：$O(mlogn)$， 其中m为words中所有单词的长度之和，对于每一个字符都要进行一次二分查找
+- 空间复杂度：$O(n)$， 保存s中子母出现的索引值。
+
+* []
+
+```java
+class Solution {
+    int[][] cnt = new int[26][50005];
+    public int numMatchingSubseq(String s, String[] words) {
+        int ans = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            cnt[c- 'a'][++cnt[c- 'a'][0]] = i; // cnt[i][0] 保存当前cnt[i]里面元素个数
+        }
+        for (int i = 0; i < words.length; i++) {
+            int cur = -1, j;
+            for (j = 0; j < words[i].length(); j++) {
+                char c = words[i].charAt(j); 
+                int t = search(c - 'a', cur);
+                if (t == -1) break; cur = t + 1;
+            }
+            if (j == words[i].length()) ans++; 
+        }
+        return ans;
+    }
+    int search(int x, int cur) {
+        int l = 1, r = cnt[x][0];
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (cnt[x][mid] >= cur) r = mid;
+            else l = mid + 1;
+        } 
+        return cnt[x][r] >= cur ? cnt[x][r] : -1;
+    }
+}
+```
+
+- 解法二：多指针优化
+  对于解法一，每个words中的字符串都会对s进行一次比较，那么其实可以反向思维一下，我们在s字符串上进行移动，我们给每一个word里面的字符串都加上一个指针，指针最开始的字符。若s当前的字符为c,那么所有words里面指针指向c这个字符的指针都应该往后移动，若移动到末尾，那么代表找到一个子序列。
+- 按照这个思路可以很简单写出如下代码。
+
+* []
+
+```java
+class Solution { 
+    public int numMatchingSubseq(String s, String[] words) {
+        int ans = 0;
+        int[] p = new int[words.length]; //每个字符串的指针
+        for (char c : s.toCharArray()) { // O(n)
+            for (int i = 0; i < p.length; i++) if (p[i] < words[i].length() && words[i].charAt(p[i]) == c) p[i]++; //O(m)
+        }
+        for (int i = 0; i < p.length; i++) if (p[i] == words[i].length()) ans++;
+        return ans;
+    }
+}
+```
+
+- 但是，我们发现每次去查找指向c字符的指针都遍历了整个words数组的长度，这个操作非常耗时，其实当一些指针指向末尾后，我们就不用再进行判断，因此可以从这进行优化
+- 使用一个队列来保存当前指向某个字符的所有指针，这时候每次移动时只会遍历当前字符c对应的指针，节省了许多遍历次数。
+- 时间复杂度：$O(n + m)$, m为words中所有单词长度之和
+- 空间复杂度：$O(len(words))$,指针的个数
+
+* []
+
+```java
+class Solution { 
+    public int numMatchingSubseq(String s, String[] words) {
+        int ans = 0;
+        Queue<int[]>[] q = new Queue[26];//模拟26个字符指针
+        for (int i = 0; i < 26; i++) q[i] = new LinkedList<>();
+        for (int i = 0; i < words.length; i++) q[words[i].charAt(0) - 'a'].add(new int[]{i, 0});
+        for (char c : s.toCharArray()) { // O(n) 
+            //目前指针位于c子母的字符串进行移动
+            int size = q[c - 'a'].size();
+            while (size-- > 0) {
+                int[] tem = q[c - 'a'].poll();
+                int i = tem[0], len = tem[1];
+                if (len + 1 == words[i].length()) {
+                    ans++; continue;
+                }
+                char t = words[i].charAt(len + 1);
+                q[t - 'a'].add(new int[]{i, len + 1}); //指针移动
+            }
+        } 
+        return ans;
+    }
+}
+```
+
