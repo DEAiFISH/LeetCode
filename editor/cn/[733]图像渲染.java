@@ -46,7 +46,24 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int target = image[sr][sc];
+        if (target != color) {
+            dfs(image, sr, sc, color, target);
+        }
+        return image;
+    }
 
+    private void dfs(int[][] image, int sr, int sc, int color, int target) {
+        if (sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length || image[sr][sc] != target) {
+            return;
+        }
+
+        image[sr][sc] = color;
+
+        dfs(image, sr + 1, sc, color, target);
+        dfs(image, sr - 1, sc, color, target);
+        dfs(image, sr, sc + 1, color, target);
+        dfs(image, sr, sc - 1, color, target);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
