@@ -1,0 +1,32 @@
+* 
+
+```
+var connect = function(root) {
+    if(!root) return root;
+    
+    let queue = [root]; // 存储当前层级从左至右节点队列
+
+    let nextQueue = [];  // 存储下一个层级从左至右节点队列
+
+    while(queue.length > 0) {
+        let node = queue.shift();
+
+        node.left && nextQueue.push(node.left);  // 添加左节点到下一队列
+        node.right && nextQueue.push(node.right); // 添加右节点到下一队列
+
+        if(queue.length > 0) { // 设置next
+            node.next = queue[0];
+        } else { // 交换队列
+            node.next = null;
+            queue = nextQueue;
+            nextQueue = [];
+        }
+
+    }
+
+    return root;
+};
+
+```
+
+[刷题视频](https://xiaochen1024.com/series/6196129fc1553b002e57bef5)
