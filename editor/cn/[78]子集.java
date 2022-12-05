@@ -31,13 +31,15 @@
 // Related Topics 位运算 数组 回溯 👍 1778 👎 0
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList();
 
-        //采用回溯法
         backTrace(nums, res, 0, new ArrayList());
 
         return res;
@@ -45,8 +47,7 @@ class Solution {
     }
 
     public void backTrace(int[] nums, List<List<Integer>> res, int index, List<Integer> trace) {
-        List<Integer> vals = new ArrayList(trace);
-        res.add(vals);
+        res.add(new ArrayList(trace));
 
         //根据示例，组合起来得子集是有序得，故起点为index+1
         for (int i = index; i < nums.length; i++) {
