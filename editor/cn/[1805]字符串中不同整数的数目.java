@@ -50,21 +50,25 @@ import java.util.Set;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int numDifferentIntegers(String word) {
+        int l = 0;
+        int r = 0;
+        int len = word.length();
         Set<String> set = new HashSet<>();
-        for (int i = 0; i < word.length(); i++) {
-            char c = word.charAt(i);
-            if (c < 58) {
-                int j = i;
-                while (j < word.length() && word.charAt(j) < 58) {
-                    j++;
+        while (l < len) {
+            if (Character.isDigit(word.charAt(l))) {
+                r = l + 1;
+                while (r < len && Character.isDigit(word.charAt(r))) {
+                    r++;
                 }
-                while (i < j && word.charAt(i) == 48) {
-                    i++;
+                while (l < r && word.charAt(l) == '0') {
+                    l++;
                 }
-                set.add(word.substring(i, j));
-                i = j;
+                set.add(word.substring(l, r));
+                l = r;
             }
+            l++;
         }
+
         return set.size();
     }
 }
