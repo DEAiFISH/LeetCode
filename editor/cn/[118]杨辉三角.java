@@ -34,9 +34,9 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        List<List<Integer>> ret = new ArrayList<List<>>();
         for (int i = 0; i < numRows; ++i) {
-            List<Integer> row = new ArrayList<Integer>();
+            List<Integer> row = new ArrayList<>();
             for (int j = 0; j <= i; ++j) {
                 if (j == 0 || j == i) {
                     row.add(1);
