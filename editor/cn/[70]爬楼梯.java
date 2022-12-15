@@ -38,15 +38,20 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int climbStairs(int n) {
-        int a = 1, b = 1, sum = 0;
-        if (n == 1)
-            return n;
-        for (int i = 2; i <= n; i++) {
-            sum = a + b;
-            a = b;
-            b = sum;
+        if (n == 1) {
+            return 1;
         }
-        return sum;
+        if (n == 2) {
+            return 2;
+        }
+        int a = 1, b = 2;
+        int temp;
+        for (int i = 3; i <= n; i++) {
+            temp = b;
+            b = a + b;
+            a = temp;
+        }
+        return b;
     }
 }
 
