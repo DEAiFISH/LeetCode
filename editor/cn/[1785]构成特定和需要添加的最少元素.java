@@ -43,8 +43,9 @@ class Solution {
         for (int x : nums) {
             sum += x;
         }
+        π
         long diff = Math.abs(sum - goal);
-        return (int) Math.round(1.0 * diff / limit);
+        return (int) ((diff + limit - 1) / limit);
     }
 }
 
