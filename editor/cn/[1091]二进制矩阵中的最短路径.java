@@ -1,17 +1,5 @@
 class Solution {
 
-    static class Node {
-        int x;
-        int y;
-        int step;
-
-        public Node(int start, int end, int step) {
-            this.x = start;
-            this.y = end;
-            this.step = step;
-        }
-    }
-
     int[] dx = {0, 0, -1, 1, -1, 1, -1, 1};
     int[] dy = {-1, 1, 0, 0, -1, -1, 1, 1};
 
@@ -46,6 +34,18 @@ class Solution {
             }
         }
         return -1;
+    }
+
+    static class Node {
+        int x;
+        int y;
+        int step;
+
+        public Node(int start, int end, int step) {
+            this.x = start;
+            this.y = end;
+            this.step = step;
+        }
     }
 
 }
