@@ -46,17 +46,11 @@ class Solution {
         int len = grid.length;
         int len0 = grid[0].length;
         boolean[][] T_grid = new boolean[len][len0];
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len0; j++) {
-                T_grid[i][j] = true;
-            }
-
-        }
 
         int res = 0;
         for (int i = 0; i < len; i++) {
             for (int j = 0; j < len0; j++) {
-                if (grid[i][j] == 1) {
+                if (grid[i][j] == 1 && !T_grid[i][j]) {
                     int t = dfs(grid, i, j, T_grid);
                     res = Math.max(res, t);
                 }
@@ -66,10 +60,10 @@ class Solution {
     }
 
     private int dfs(int[][] grid, int i, int j, boolean[][] T_grid) {
-        if (i < 0 || j < 0 || i > grid.length - 1 || j > grid[0].length - 1 || grid[i][j] == 0 || !T_grid[i][j]) {
+        if (i < 0 || j < 0 || i > grid.length - 1 || j > grid[0].length - 1 || grid[i][j] == 0 || T_grid[i][j]) {
             return 0;
         }
-        T_grid[i][j] = false;
+        T_grid[i][j] = true;
         return 1
                 + dfs(grid, i + 1, j, T_grid)
                 + dfs(grid, i - 1, j, T_grid)
