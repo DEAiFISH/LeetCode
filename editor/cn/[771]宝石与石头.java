@@ -35,11 +35,11 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int numJewelsInStones(String jewels, String stones) {
-        char[] c = jewels.toCharArray();
+        char[] gems = jewels.toCharArray();
         int sum = 0;
-        for (int i = 0; i < c.length; i++) {
+        for (int i = 0; i < gems.length; i++) {
             int index = -1;
-            while ((index = stones.indexOf(c[i], index + 1)) != -1) {
+            while ((index = stones.indexOf(gems[i], index + 1)) != -1) {
                 sum++;
             }
         }
