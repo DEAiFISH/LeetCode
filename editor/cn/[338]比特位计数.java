@@ -56,14 +56,14 @@
 class Solution {
     public int[] countBits(int n) {
         int[] arr = new int[n + 1];
-        for (int i = 0; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {
             int num = i;
-            int sum = 0;
             while (num != 0) {
-                sum += num & 1;
+                if ((num & 1) == 1) {
+                    arr[i]++;
+                }
                 num = num >> 1;
             }
-            arr[i] = sum;
         }
         return arr;
     }

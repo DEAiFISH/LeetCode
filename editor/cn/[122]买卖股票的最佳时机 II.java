@@ -45,7 +45,21 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[] a = new int[n];
 
+        for (int i = 1; i < n; i++) {
+            a[i] = prices[i] - prices[i - 1];
+        }
+
+        int res = 0;
+        for (int i = 1; i < n; i++) {
+            if (a[i] > 0) {
+                res += a[i];
+            }
+        }
+
+        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
