@@ -1,0 +1,90 @@
+# 题目
+
+## 2352. 相等行列对
+
+给你一个下标从 `0` 开始、大小为 `n x n` 的整数矩阵 `grid` ，返回满足 `Ri` 行和 `Cj` 列相等的行列对 `(Ri, Cj)` 的数目。
+
+如果行和列以相同的顺序包含相同的元素（即相等的数组），则认为二者是相等的。
+
+# 题目分析
+
+这道题暴力解：遍历每一列，然后遍历每一行，再比对当前行和当前列是否以相同顺序包含相同元素。遍历每一行的时间复杂度为`O(n^2)`，再套上一层遍历每一列时间复杂度就为`O(n^3)`。
+我们可以发现，我们其实在遍历每一列的时候都在重复的遍历每一行，那么我们可以**使用哈希表来存储每一行的数字序列字符串**。然后在遍历每一个行的时候生成这一行对应的数字序列字符串，哈希表中记录有这个数字序列字符串的个数就是对应的行列对个数。
+
+![image.png](https://pic.leetcode.cn/1686016203-QuBDVm-image.png)
+
+如果直接把数字进行拼接会造成歧义，可能不同的数字会有相同数字序列字符串。因此每一个数字之后添加一个标识符`%`进行区分。
+
+![image.png](https://pic.leetcode.cn/1686016519-etatPv-image.png)
+
+# 图解
+
+以示例`2`进行图解
+![image.png](https://pic.leetcode.cn/1686017218-BkGbaQ-image.png)
+
+# 代码
+
+* []
+
+```java
+class Solution {
+    public int equalPairs(int[][] grid) {
+        int n = grid.length;    // 矩阵尺寸
+        Map<String, Integer> rowSeqCount = new HashMap<>();     // 存储行数字序列字符串的哈希表
+        StringBuilder sb ;      // 用于生成数字序列字符串
+        String rowSeq;          // 数字序列字符串
+        for(int i = 0; i < n; i++){     // 遍历每一行
+            sb = new StringBuilder();   // 每一行新建一个对象
+            // 生成行数字序列字符串
+            for(int j = 0; j < n; j++){
+                sb.append(grid[i][j]);
+                sb.append('%');
+            }
+            rowSeq = sb.toString(); 
+            // 哈希表记录这个数字序列字符串个数
+            rowSeqCount.put(rowSeq, rowSeqCount.getOrDefault(rowSeq, 0) + 1);
+        }
+        int count = 0;
+        for(int j = 0; j < n; j++){     // 遍历每一列
+            sb = new StringBuilder();   // 每一列新建一个对象
+            // 生成列数字序列字符串
+            for(int i = 0; i < n; i++){
+                sb.append(grid[i][j]);
+                sb.append('%');
+            }
+            rowSeq = sb.toString();
+            // 从哈希表中查询是和这个列数字序列字符串相同的行数字序列字符串的个数
+            count += rowSeqCount.getOrDefault(rowSeq, 0);
+        }
+        return count; 
+    }
+}
+```
+
+* []
+
+```python
+class Solution:
+    def equalPairs(self, grid: List[List[int]]) -> int:
+        n = len(grid)       # 矩阵尺寸
+        row_seq_count = {}  # 存储行数字序列字符串的哈希表
+        for i in range(n):  # 用于生成数字序列字符串
+            row_seq = ""    # 每一行新建一个字符串
+            # 生成行数字序列字符串
+            for j in range(n):  
+                row_seq += f"{grid[i][j]}%"
+            # 哈希表记录这个数字序列字符串个数
+            row_seq_count[row_seq] = row_seq_count.get(row_seq, 0) + 1
+        
+        count = 0
+        for j in range(n):  # 遍历每一列
+            row_seq = ""    # 每一列新建一个对象
+            # 生成列数字序列字符串
+            for i in range(n):
+                row_seq += f"{grid[i][j]}%"
+            # 从哈希表中查询是和这个列数字序列字符串相同的行数字序列字符串的个数
+            count += row_seq_count.get(row_seq, 0)
+
+        return count
+```
+
