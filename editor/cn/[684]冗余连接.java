@@ -49,9 +49,9 @@ class Solution {
 
     public int[] findRedundantConnection(int[][] edges) {
         int n = edges.length;
-        fa = new int[n + 1];
+        father = new int[n + 1];
         for (int i = 1; i <= n; i++) {
-            fa[i] = i;
+            father[i] = i;
         }
 
         for (int i = 0; i < n; i++) {
@@ -64,14 +64,14 @@ class Solution {
     }
 
     private void u(int i, int j) {
-        fa[f(i)] = f(j);
+        father[f(i)] = f(j);
     }
 
     private int f(int x) {
-        if (x != fa[x]) {
-            fa[x] = f(fa[x]);
+        if (x != father[x]) {
+            father[x] = f(father[x]);
         }
-        return fa[x];
+        return father[x];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
