@@ -36,25 +36,25 @@
 // Related Topics 数组 哈希表 字符串 排序 👍 1246 👎 0
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        //判断是否为空字符串数组
-        if (strs == null || strs.length == 0) {
-            return new ArrayList();
-        }
-        //1.创建一个哈希表
-        Map<String, List> map = new HashMap<String, List>();
-        for (String s : strs) {
-            char[] chars = s.toCharArray();
-            Arrays.sort(chars);
-            String key = String.valueOf(chars);
-            if (!map.containsKey(key)) {
-                map.put(key, new ArrayList());
+        HashMap<String, List<String>> map = new HashMap<>();
+        for (int i = 0; i < strs.length; i++) {
+            char[] c = strs[i].toCharArray();
+            Arrays.sort(c);
+            String s = String.valueOf(c);
+            if (!map.containsKey(s)) {
+                map.put(s, new ArrayList<>());
             }
-            map.get(key).add(s);
+            map.get(s).add(strs[i]);
         }
-        return new ArrayList(map.values());
+        return new ArrayList<>(map.values());
     }
 }
 

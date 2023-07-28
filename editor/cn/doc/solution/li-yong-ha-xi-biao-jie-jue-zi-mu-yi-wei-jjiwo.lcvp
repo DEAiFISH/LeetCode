@@ -1,0 +1,68 @@
+> Problem: [49. 字母异位词分组](https://leetcode.cn/problems/group-anagrams/description/)
+
+[TOC]
+
+# 思路
+
+# 1.循环遍历每一个单词，通过排序建立字典的键。
+
+注意每次循环后要清空sorted_word中的值，用来存放下一个字符串。
+这里我们直接使用""作为初始值就行了，直接保证每次能清空。
+
+## 2.将单词加入字典中。
+
+分两种情况，如果没有键在字典中，那么新添加一个列表；如果键在字典中，那么在字典中的该键下加入。(注意：注意当加入字典中时，这里的值类型都是list[string])
+
+# 3.最后返回的是list(字典的值)
+
+# 解题方法
+
+# > 主要是用的字典和循环。需要注意一些小细节。
+
+# 复杂度
+
+- 时间复杂度:
+
+这个算法的时间复杂度是 O(n * k * log k)，其中 n 是字符串列表 `strs` 中单词的总数，k 是单词中的字符数（最长单词的字符数）。
+
+1. 排序部分的时间复杂度是 O(k * log k)：对每个单词进行排序需要的时间复杂度是 O(k * log k)，其中 k 是单词中的字符数。
+2. 遍历部分的时间复杂度是 O(n)：遍历整个字符串列表 `strs` 的时间复杂度是 O(n)。
+
+因此，整个算法的时间复杂度是 O(n * k * log k)。
+
+- 空间复杂度:
+
+关于空间复杂度，主要由哈希表 `anagram_dict` 存储字母异位词分组的结果。在最坏情况下，所有的单词都是异位词，每个单词都需要按照字母顺序排序并存储到哈希表中。因此，空间复杂度为 O(n * k)，其中 n 是字符串列表 `strs` 中单词的总数，k 是单词中的字符数（最长单词的字符数）。
+
+综上所述，该算法的时间复杂度是 O(n * k * log k)，空间复杂度是 O(n * k)。在实际应用中，通常由于 k 不会特别大，因此可以简化为 O(n * log k) 的时间复杂度和 O(n * k) 的空间复杂度。
+
+# Code
+
+* []
+
+```Python
+
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+       
+
+        # 定义一个字典，用于存储字母异位词分组结果
+        anagram_dict = {}
+        
+        # 遍历所有单词
+        for word in strs:
+            # 将单词按照字母顺序排序，并作为键
+            sorted_word = ''.join(sorted(word))
+            
+            # 如果该键已经在字典中，将当前单词加入到对应的列表中
+            if sorted_word in anagram_dict:
+                anagram_dict[sorted_word].append(word)
+            else:
+                # 如果该键不存在，则创建新的列表，并将当前单词加入其中
+                anagram_dict[sorted_word] = [word]
+        
+        # 返回字典中所有值组成的列表，即为结果
+        return list(anagram_dict.values())
+```
+

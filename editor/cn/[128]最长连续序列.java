@@ -30,6 +30,9 @@
 // Related Topics 并查集 数组 哈希表 👍 1676 👎 0
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class UnionFind {
     // 记录每个节点的父节点
@@ -50,12 +53,13 @@ class UnionFind {
             return null;
         }
         // 遍历找到x的父节点
-        while (x != parent.get(x)) {
-            // 进行路径压缩，不写下面这行也可以，但是时间会慢些
-            parent.put(x, parent.get(parent.get(x)));
-            x = parent.get(x);
+        // 进行路径压缩，不写下面这行也可以，但是时间会慢些
+        if (x == parent.get(x)) {
+            return x;
+        } else {
+            parent.put(x, find(parent.get(x)));
+            return parent.get(x);
         }
-        return x;
     }
 
     // 合并两个连通分量，在本题中只用来将num并入到num+1的连续区间中
