@@ -76,8 +76,8 @@ class Solution {
                 res[index][1] = Math.max(res[index][1], interval[1]);
             }
         }
-        return Arrays.copyOf(res, index + 1);
 
+        return Arrays.copyOf(res, index + 1);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
