@@ -56,6 +56,7 @@
 
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
@@ -64,7 +65,7 @@ class Solution {
 
         System.arraycopy(intervals, 0, ints, 0, intervals.length);
         ints[ints.length - 1] = newInterval;
-        Arrays.sort(ints, (v1, v2) -> v1[0] - v2[0]);
+        Arrays.sort(ints, Comparator.comparingInt(v -> v[0]));
 
         int[][] res = new int[ints.length][2];
         int index = -1;
