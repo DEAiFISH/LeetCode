@@ -1,0 +1,123 @@
+# 方法一：拓扑排序 + 广度优先搜索
+
+问题转换：**判断给定的有向图(b -> a)中，是否不存在环**
+
+无须建图，只需要建两个东西：
+1. `deg`数组：用来表示每个节点的入度
+2. `path`多映射：用来保存每个节点的下一个节点
+
+`deg[i]`表示：节点`i`的入度
+`path[i]`表示：节点`i`的下一个节点的集合
+
+采用拓扑排序的方法，分离出环
+
+具体实现看代码注释
+
+* []
+
+```Java
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int n = numCourses, m = prerequisites.length; // 节点总数 路径总数
+        int[] deg = new int[n]; // 入度数组
+        int total = 0; // 统计总的度数
+        ArrayList<ArrayList<Integer>> path = new ArrayList<>(); // 路径集合
+        for (int i = 0; i < n; i++) path.add(new ArrayList<Integer>()); // 为每个节点开一个空的集合
+        for (int[] arr: prerequisites) { // 写入数据
+            deg[arr[0]]++; // arr[1] -> arr[0] arr[0]入度++
+            total++; // 更新总的度数
+            path.get(arr[1]).add(arr[0]); // 更新arr[1]的路径集合
+        }
+        ArrayDeque<Integer> queue = new ArrayDeque<>(); // 用一个队列来实现广度优先搜索
+        for (int a = 0; a < n; a++) { // 遍历入度数组
+            if (deg[a] == 0) queue.offer(a); // 把所有入度为0的节点加入队列中
+        }
+        while (!queue.isEmpty()) { // 队列不为空
+            for (int a: path.get(queue.pop())) { // 从队列里弹出一个元素，并遍历它的下一个节点的集合
+                deg[a]--; // 更新该节点的入度
+                total--; // 更新总的度数
+                if (deg[a] == 0) queue.offer(a); // 把遍历到的入度为0的节点入队（拓扑排序）
+            }
+        }
+        return total == 0; // 判断是否全部节点的入度都为0，否则就存在环
+    }
+}
+```
+
+* []
+
+```Python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        n, m = numCourses, len(prerequisites) # 节点总数 路径总数
+        deg, path = [0] * n, defaultdict(list) # 入度数组 路径集合
+        for a, b in prerequisites: # 写入数据
+            deg[a] += 1 # 建 b -> a 这条边，更新a的入度
+            path[b].append(a) # 更新b的路径集合
+        queue = deque() # 用一个队列来实现广度优先搜索
+        for a in range(n): # 遍历入度数组
+            if deg[a] == 0: # 把所有入度为0的节点入队
+                queue.append(a)
+        while len(queue): # 队列不为空
+            for a in path[queue.popleft()]: # 从队列里弹出一个元素，并遍历它的下一个节点的集合
+                deg[a] -= 1 # 更新该节点的入度
+                if deg[a] == 0: # 把遍历到的入度为0的节点入队（拓扑排序）
+                    queue.append(a)
+        return all(deg[a] == 0 for a in range(n)) # 判断是否全部节点的入度都为0，否则就存在环
+
+```
+
+* []
+
+```C
+bool canFinish(int numCourses, int** prerequisites, int prerequisitesSize, int* prerequisitesColSize) {
+    // 很久之前写的，当初只会C，用的是建图的方法，跑得很慢，贴出来不做注释了
+    int n = numCourses, m = prerequisitesSize;
+    int* intake = (int*)malloc(sizeof(int) * n);
+    if (intake == NULL) return NULL;
+    bool** matrix = (bool**)malloc(sizeof(bool*) * n);
+    if (matrix == NULL) return NULL;
+    for (int i = 0; i < n; i++) {
+        intake[i] = 0;
+        matrix[i] = (bool*)malloc(sizeof(bool) * n);
+        if (matrix[i] == NULL) return NULL;
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = false;
+        }
+    }
+    for (int i = 0; i < m; i++) {
+        int a = prerequisites[i][1], b = prerequisites[i][0];
+        intake[b]++;
+        matrix[a][b] = true;
+    }
+    int queue[100000];
+    int num = n;
+    while (num > 0) {
+        int front = 0, rear = -1;
+        for (int i = 0; i < n; i++) {
+            if (intake[i] == 0) {
+                intake[i] = -1;
+                queue[++rear] = i;
+                num--;
+            }
+        }
+        if (rear == -1 && num > 0) return false;
+        for (int index = rear; front <= index; front++) {
+            for (int i = 0; i < n; i++) {
+                if (matrix[queue[front]][i]) {
+                    matrix[queue[front]][i] = false;
+                    intake[i]--;
+                }
+            }
+        }
+    }
+    return true;
+}
+```
+
+- 时间复杂度：$O(n + m)$，需遍历该有向图一遍，其中遍历到了每个节点和每条边
+- 空间复杂度：$O(n + m)$，入度数组，路径集合，双端队列的空间开销
+
+效率还是挺高的...
+![image.png](https://pic.leetcode.cn/1694230259-AloWXs-image.png)
+

@@ -1,0 +1,59 @@
+> Problem: [207. 课程表](https://leetcode.cn/problems/course-schedule/description/)
+
+[TOC]
+
+# 思路
+
+> 讲述看到这一题的思路
+
+# 解题方法
+
+> 描述你的解题方法
+
+# 复杂度
+
+- 时间复杂度:
+
+> 添加时间复杂度, 示例： $O(n)$
+
+- 空间复杂度:
+
+> 添加空间复杂度, 示例： $O(n)$
+
+# Code
+
+* []
+
+```Python
+
+from collections import defaultdict, deque
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # 创建一个字典来存储每个课程的先决条件
+        graph = defaultdict(list)
+        indegrees = [0] * numCourses
+        
+        for course, pre in prerequisites:
+            graph[pre].append(course)
+            indegrees[course] += 1
+        
+        # 使用一个队列来存储没有先决条件的课程
+        queue = deque([i for i in range(numCourses) if indegrees[i] == 0])
+        
+        # 已处理的课程数量
+        processed_courses = 0
+        
+        while queue:
+            pre = queue.popleft()
+            processed_courses += 1
+            for course in graph[pre]:
+                indegrees[course] -= 1
+                if indegrees[course] == 0:
+                    queue.append(course)
+        
+        # 如果所有课程都被处理了，那么返回True，否则返回False
+        return processed_courses == numCourses
+
+```
+

@@ -1,0 +1,55 @@
+> Problem: [207. 课程表](https://leetcode.cn/problems/course-schedule/description/)
+
+[TOC]
+
+# 解题方法
+
+> y总的 Topsort 模板题
+
+# 复杂度
+
+- 时间复杂度:
+
+> 添加时间复杂度, 示例： $O(n)$
+
+- 空间复杂度:
+
+> 添加空间复杂度, 示例： $O(n)$
+
+# Code
+
+* []
+
+```C++
+
+class Solution 
+{
+    int res = 0;
+public:
+    bool canFinish(int n, vector<vector<int>>& pre) 
+    {
+        vector<int> d(n,0);//记录每节课的入度
+        for(auto p : pre) d[p[0]]++;//将每节课的入度计入数组里面
+        queue<int> q;//运用队列储存入度为零的课程
+        for(int i = 0;i < d.size(); ++i)//找到所有出边为0的节点放到队列 q 里面
+            if(!d[i]) 
+                q.push(i);
+        
+        while(!q.empty())
+        {
+            auto t = q.front();//取出对头元素
+            q.pop();
+            res++;//将与 t 相连的课程的入度减一
+            for(int i = 0; i < pre.size(); ++i)
+            {
+                if(t == pre[i][1])
+                {
+                    if(--d[pre[i][0]]==0) q.push(pre[i][0]);
+                }
+            }
+        }
+        return res == n;
+    }
+};
+```
+

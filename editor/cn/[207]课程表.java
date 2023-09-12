@@ -40,35 +40,53 @@
 // Related Topics 深度优先搜索 广度优先搜索 图 拓扑排序 👍 1408 👎 0
 
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        int[] indegrees = new int[numCourses];
-        List<List<Integer>> adjacency = new ArrayList<>();
-        Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < numCourses; i++)
-            adjacency.add(new ArrayList<>());
-        // Get the indegree and adjacency of every course.
-        for (int[] cp : prerequisites) {
-            indegrees[cp[0]]++;
-            adjacency.get(cp[1]).add(cp[0]);
+        //记录入度和出度
+        int[] in = new int[numCourses];
+        ArrayList<Integer>[] out = new ArrayList[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            out[i] = new ArrayList<>();
         }
-        // Get all the courses with the indegree of 0.
-        for (int i = 0; i < numCourses; i++)
-            if (indegrees[i] == 0) queue.add(i);
-        // BFS TopSort.
-        while (!queue.isEmpty()) {
-            int pre = queue.poll();
-            numCourses--;
-            for (int cur : adjacency.get(pre))
-                if (--indegrees[cur] == 0) queue.add(cur);
+
+        for (int i = 0; i < prerequisites.length; i++) {
+            int a = prerequisites[i][0];
+            int b = prerequisites[i][1];
+            in[a]++;
+            out[b].add(a);
         }
-        return numCourses == 0;
+
+        //广度优先
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (in[i] == 0) {
+                deque.add(i);
+            }
+        }
+        while (!deque.isEmpty()) {
+            Integer x = deque.pop();
+            for (int n : out[x]) {
+                in[n]--;
+                if (in[n] == 0) {
+                    deque.offer(n);
+                }
+            }
+        }
+
+
+        //若遍历完 则true
+        for (int i = 0; i < numCourses; i++) {
+            if (in[i] != 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
+
 //leetcode submit region end(Prohibit modification and deletion)
