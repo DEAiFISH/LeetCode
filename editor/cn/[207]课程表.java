@@ -53,11 +53,15 @@ class Solution {
             out[i] = new ArrayList<>();
         }
 
+        //记录总度数
+        int total = 0;
+
         for (int i = 0; i < prerequisites.length; i++) {
             int a = prerequisites[i][0];
             int b = prerequisites[i][1];
             in[a]++;
             out[b].add(a);
+            total++;
         }
 
         //广度优先
@@ -71,6 +75,7 @@ class Solution {
             Integer x = deque.pop();
             for (int n : out[x]) {
                 in[n]--;
+                total--;
                 if (in[n] == 0) {
                     deque.offer(n);
                 }
@@ -78,11 +83,9 @@ class Solution {
         }
 
 
-        //若遍历完 则true
-        for (int i = 0; i < numCourses; i++) {
-            if (in[i] != 0) {
-                return false;
-            }
+        //课程未学完
+        if (total != 0) {
+            return false;
         }
 
         return true;
