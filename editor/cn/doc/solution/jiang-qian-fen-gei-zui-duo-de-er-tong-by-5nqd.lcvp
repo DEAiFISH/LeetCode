@@ -1,0 +1,162 @@
+#### 方法一：贪心
+
+**思路与算法**
+
+首先，若 $\textit{money} < \textit{children}$，则无解，返回 $-1$。
+
+然后，给每个人先分配 $1$ 美元，令 $\textit{money}$ 减去 $\textit{children}$。
+
+接着，给尽可能多的人分配 $7$ 美元（加上前面分配的 $1$ 美元就是 $8$ 美元），这样最多分给 $\textit{cnt} = \min(\lfloor \dfrac{\textit{money}}{7}  \rfloor, \textit{children})$ 个人。
+
+令 $\textit{money}$ 减去 $7 \times \textit{cnt}$，$\textit{children}$ 减去 $\textit{cnt}$。此时还剩余 $\textit{money}$ 美元和 $\textit{children}$ 个人，进行分类讨论：
+
+1. 若剩余 $0$ 个人，并且 $\textit{money} > 0$，那么将所有的美元分配给一个已经分到 $8$ 美元的人，令 $\textit{cnt}$ 减去 $1$。
+2. 若剩余 $1$ 个人，并且 $\textit{money} = 3$，为了避免分到 $4$ 美元，并注意到题目输入中的 $\textit{children} >= 2$，因此将这 $3$ 美元拆成两部分，将其中的一部分分配给已经分到 $8$ 美元的人，令 $\textit{cnt}$ 减去 $1$。
+3. 对于其他情况，若 $\textit{money} > 0$，可以将所有美元分配给一个人，$\textit{cnt}$ 不变。
+
+**代码**
+
+* [sol1-C++]
+
+```C++
+class Solution {
+public:
+    int distMoney(int money, int children) {
+        if (money < children) {
+            return -1;
+        }
+        money -= children;
+        int cnt = min(money / 7, children);
+        money -= cnt * 7;
+        children -= cnt;
+        if ((children == 0 && money > 0) || (children == 1 && money == 3)) {
+            cnt--;
+        }
+        return cnt;
+    }
+};
+```
+
+* [sol1-Java]
+
+```Java
+class Solution {
+    public int distMoney(int money, int children) {
+        if (money < children) {
+            return -1;
+        }
+        money -= children;
+        int cnt = Math.min(money / 7, children);
+        money -= cnt * 7;
+        children -= cnt;
+        if ((children == 0 && money > 0) || (children == 1 && money == 3)) {
+            cnt--;
+        }
+        return cnt;
+    }
+}
+```
+
+* [sol1-C#]
+
+```C#
+public class Solution {
+    public int DistMoney(int money, int children) {
+        if (money < children) {
+            return -1;
+        }
+        money -= children;
+        int cnt = Math.Min(money / 7, children);
+        money -= cnt * 7;
+        children -= cnt;
+        if ((children == 0 && money > 0) || (children == 1 && money == 3)) {
+            cnt--;
+        }
+        return cnt;
+    }
+}
+```
+
+* [sol1-C]
+
+```C
+int distMoney(int money, int children) {
+    if (money < children) {
+        return -1;
+    }
+    money -= children;
+    int cnt = fmin(money / 7, children);
+    money -= cnt * 7;
+    children -= cnt;
+    if ((children == 0 && money > 0) || (children == 1 && money == 3)) {
+        cnt--;
+    }
+    return cnt;
+}
+```
+
+* [sol1-Python]
+
+```Python
+class Solution:
+    def distMoney(self, money: int, children: int) -> int:
+        if money < children:
+            return -1
+        money -= children
+        cnt = min(money // 7, children)
+        money -= cnt * 7
+        children -= cnt
+        if (children == 0 and money > 0) or (children == 1 and money == 3):
+            cnt -= 1
+        return cnt
+```
+
+* [sol1-Go]
+
+```Go
+func distMoney(money int, children int) int {
+    if money < children {
+        return -1
+    }
+    money -= children
+    cnt := min(money / 7, children)
+    money -= cnt * 7
+    children -= cnt
+    if (children == 0 && money > 0) || (children == 1 && money == 3) {
+        cnt -= 1
+    }
+    return cnt
+}
+
+func min(x int, y int) int {
+    if x > y {
+        return y
+    }
+    return x
+}
+```
+
+* [sol1-JavaScript]
+
+```JavaScript
+var distMoney = function(money, children) {
+    if (money < children) {
+        return -1;
+    }
+    money -= children
+    let cnt = Math.min(Math.floor(money / 7), children);
+    money -= cnt * 7;
+    children -= cnt;
+    if ((children == 0 && money > 0) || (children == 1 && money == 3)) {
+        cnt -= 1;
+    }
+    return cnt;
+};
+```
+
+**复杂度分析**
+
+- 时间复杂度：$O(1)$。
+
+- 空间复杂度：$O(1)$。
+
