@@ -39,41 +39,23 @@
 // 👍 50 👎 0
 
 
-import java.util.HashSet;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int tupleSameProduct(int[] nums) {
-        HashSet<Double> set = new HashSet<>();
-        HashSet<Double> res = new HashSet<>();
-
-        for (int n : nums) {
-            set.add((double) n);
-        }
-
-        int sum = 0;
-        for (int i = 0; i < nums.length - 3; i++) { // #1
-            set.remove((double) nums[i]);
-            for (int j = nums.length - 1; j > i + 2; j--) { // #4
-                set.remove((double) nums[j]);
-                for (int k = i + 1; k < j - 1; k++) { // #2
-                    set.remove((double) nums[k]);
-                    double x = 1d * nums[i] * nums[j] / nums[k];
-                    double y = nums[i] + nums[j] + nums[k] + x;
-                    if (set.contains(x)) {
-                        if (!res.contains(y)) {
-                            sum += 8;
-                            res.add(y);
-                        }
-                    }
-                    set.add((double) nums[k]);
-                }
-                set.add((double) nums[j]);
+        int n = nums.length;
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int key = nums[i] * nums[j];
+                cnt.put(key, cnt.getOrDefault(key, 0) + 1);
             }
-            set.add((double) nums[i]);
         }
-
-        return sum;
+        int ans = 0;
+        for (Integer v : cnt.values()) {
+            ans += v * (v - 1) * 4;
+        }
+        return ans;
     }
 }
+
 //leetcode submit region end(Prohibit modification and deletion)
