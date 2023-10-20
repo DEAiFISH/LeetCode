@@ -1,0 +1,166 @@
+#### 方法一：数学
+
+**思路与算法**
+
+题目给出箱子的三个维度长度和质量，要求返回一个表示箱子类别的字符串。
+
+首先，我们求出箱子最长的维度 $\textit{maxd}$ 和体积 $\textit{vol}$。然后判断盒子：
+
+- 是否是 $\text{Heavy}$ 的，即箱子的质量大于等于 $100$。
+- 是否是 $\text{Bulky}$ 的，即最长的维度大于等于 $10^4$ 或者箱子的体积大于等于 $10^9$。
+
+最后根据题意，返回对应的类别的字符串即可。
+
+**代码**
+
+* [sol1-C++]
+
+```C++
+class Solution {
+public:
+    string categorizeBox(int length, int width, int height, int mass) {
+        long long maxd = max(length, max(width, height)), vol = 1L * length * width * height;
+        bool isBulky = maxd >= 10000 || vol >= 1000000000, isHeavy = mass >= 100;
+        if (isBulky && isHeavy) {
+             return "Both";
+        } else if (isBulky) {
+            return "Bulky";
+        } else if (isHeavy) {
+            return "Heavy";
+        } else {
+            return "Neither";
+        }
+    }
+};
+```
+
+* [sol1-Java]
+
+```Java
+class Solution {
+    public String categorizeBox(int length, int width, int height, int mass) {
+        long maxd = Math.max(length, Math.max(width, height)), vol = 1L * length * width * height;
+        boolean isBulky = maxd >= 10000 || vol >= 1000000000, isHeavy = mass >= 100;
+        if (isBulky && isHeavy) {
+             return "Both";
+        } else if (isBulky) {
+            return "Bulky";
+        } else if (isHeavy) {
+            return "Heavy";
+        } else {
+            return "Neither";
+        }
+    }
+}
+```
+
+* [sol1-Python3]
+
+```Python
+class Solution:
+    def categorizeBox(self, length, width, height, mass):
+        maxd = max(length, width, height)
+        vol = length * width * height
+        isBulky = maxd >= 10000 or vol >= 10**9
+        isHeavy = mass >= 100
+        if isBulky and isHeavy:
+            return 'Both'
+        if isBulky:
+            return 'Bulky'
+        if isHeavy:
+            return 'Heavy'
+        return 'Neither'
+```
+
+* [sol1-Go]
+
+```Go
+func categorizeBox(length, width, height, mass int) string {
+    maxd := max(length, max(width, height))
+    vol := length * width * height
+    isBulky := maxd >= 10000 || vol >= 1e9
+    isHeavy := mass >= 100
+    if isBulky && isHeavy {
+        return "Both"
+    } else if isBulky {
+        return "Bulky"
+    } else if isHeavy {
+        return "Heavy"
+    } else {
+        return "Neither"
+    }
+}
+
+func max(a, b int) int {
+  if a > b {
+      return a
+  }
+  return b
+}
+```
+
+* [sol1-JavaScript]
+
+```JavaScript
+var categorizeBox = function(length, width, height, mass) {
+    const maxd = Math.max(length, width, height);
+    const vol = length * width * height;
+    const isBulky = maxd >= 10000 || vol >= 10**9;
+    const isHeavy = mass >= 100;
+    if (isBulky && isHeavy) {
+       return 'Both';
+    } else if (isBulky) {
+        return 'Bulky';
+    } else if (isHeavy) {
+        return 'Heavy';
+    } else {
+        return 'Neither';
+    }
+};
+```
+
+* [sol1-C#]
+
+```C#
+public class Solution {
+    public string CategorizeBox(int length, int width, int height, int mass) {
+        long maxd = Math.Max(length, Math.Max(width, height)), vol = 1L * length * width * height;
+        bool isBulky = maxd >= 10000 || vol >= 1000000000, isHeavy = mass >= 100;
+        if (isBulky && isHeavy) {
+            return "Both";
+        } else if (isBulky) {
+            return "Bulky";
+        } else if (isHeavy) {
+            return "Heavy";
+        } else {
+            return "Neither";
+        }
+    }
+}
+```
+
+* [sol1-C]
+
+```C
+char * categorizeBox(int length, int width, int height, int mass){
+    int maxd = fmax(length, fmax(width, height));
+    long long vol = 1LL * length * width * height;
+    bool isBulky = maxd >= 10000 || vol >= 1000000000, isHeavy = mass >= 100;
+    if (isBulky && isHeavy) {
+        return "Both";
+    } else if (isBulky) {
+        return "Bulky";
+    } else if (isHeavy) {
+        return "Heavy";
+    } else {
+        return "Neither";
+    }
+}
+```
+
+**复杂度分析**
+
+- 时间复杂度：$O(1)$.
+
+- 空间复杂度：$O(1)$。
+

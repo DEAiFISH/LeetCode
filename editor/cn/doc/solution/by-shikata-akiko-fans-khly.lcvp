@@ -1,0 +1,27 @@
+`简单题`，我来整个活~ 🤣
+
+PS：下面一堆条件的位运算的取值为 `0, 1, 2, 3`~
+
+* Python
+
+```Python
+class Solution:
+    def categorizeBox(
+        self, 
+        length: int, 
+        width: int, 
+        height: int, 
+        mass: int
+    ) -> str:
+
+        return ['Neither', 'Heavy', 'Bulky', 'Both'][
+            ((length >= 10_000 or 
+              width >= 10_000 or 
+              height >= 10_000 or 
+              length * width * height >= 1_000_000_000
+              ) << 1
+             ) | (mass >= 100)
+        ]
+        
+```
+
