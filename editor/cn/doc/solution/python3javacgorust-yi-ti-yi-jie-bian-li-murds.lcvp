@@ -1,0 +1,115 @@
+**方法一：遍历计数**
+
+我们可以遍历 `details` 中的每个字符串 $x$，并将 $x$ 的第 $12$ 和第 $13$ 个字符（下标为 $11$, $12$）转换为整数，判断是否大于 $60$，如果是则将答案加一。
+
+遍历结束后，返回答案即可。
+
+* [sol1-Python3]
+
+```python
+class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        return sum(int(x[11:13]) > 60 for x in details)
+```
+
+* [sol1-Java]
+
+```java
+class Solution {
+    public int countSeniors(String[] details) {
+        int ans = 0;
+        for (var x : details) {
+            int age = Integer.parseInt(x.substring(11, 13));
+            if (age > 60) {
+                ++ans;
+            }
+        }
+        return ans;
+    }
+}
+```
+
+* [sol1-C++]
+
+```cpp
+class Solution {
+public:
+    int countSeniors(vector<string>& details) {
+        int ans = 0;
+        for (auto& x : details) {
+            int age = stoi(x.substr(11, 2));
+            ans += age > 60;
+        }
+        return ans;
+    }
+};
+```
+
+* [sol1-Go]
+
+```go
+func countSeniors(details []string) (ans int) {
+	for _, x := range details {
+		age, _ := strconv.Atoi(x[11:13])
+		if age > 60 {
+			ans++
+		}
+	}
+	return
+}
+```
+
+* [sol1-Rust]
+
+```rust
+impl Solution {
+    pub fn count_seniors(details: Vec<String>) -> i32 {
+        let mut ans = 0;
+
+        for s in details.iter() {
+            if let Ok(age) = s[11..13].parse::<i32>() {
+                if age > 60 {
+                    ans += 1;
+                }
+            }
+        }
+
+        ans
+    }
+}
+```
+
+* [sol1-Rust]
+
+```rust
+impl Solution {
+    pub fn count_seniors(details: Vec<String>) -> i32 {
+        details
+            .iter()
+            .filter_map(|s| s[11..13].parse::<i32>().ok())
+            .filter(|&age| age > 60)
+            .count() as i32
+    }
+}
+```
+
+* [sol1-TypeScript]
+
+```ts
+function countSeniors(details: string[]): number {
+    let ans = 0;
+    for (const x of details) {
+        const age = parseInt(x.slice(11, 13));
+        if (age > 60) {
+            ++ans;
+        }
+    }
+    return ans;
+}
+```
+
+时间复杂度 $O(n)$，其中 $n$ 是 `details` 的长度。空间复杂度 $O(1)$。
+
+---
+
+有任何问题，欢迎评论区交流，欢迎评论区提供其它解题思路（代码），也可以点个赞支持一下作者哈😄~

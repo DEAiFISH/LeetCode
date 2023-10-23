@@ -1,0 +1,41 @@
+> Problem: [2678. 老人的数目](https://leetcode.cn/problems/number-of-senior-citizens/description/)
+
+[TOC]
+
+# 思路
+
+> 讲述看到这一题的思路
+
+# 解题方法
+
+> 描述你的解题方法
+
+# 复杂度
+
+- 时间复杂度:
+
+> 添加时间复杂度, 示例： $O(n)$
+
+- 空间复杂度:
+
+> 添加空间复杂度, 示例： $O(n)$
+
+# Code
+
+* []
+
+```C
+
+int countSeniors(char ** details, int detailsSize){
+    int i,j=15;
+    int Num=0;
+    for(i=0;i<detailsSize;i++){
+        int a=details[i][11]-'0';
+        int b=details[i][12]-'0';
+        if(a*10+b>60)
+        Num++;
+    }
+    return Num;
+}
+```
+
