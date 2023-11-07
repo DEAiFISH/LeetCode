@@ -1,0 +1,70 @@
+## 模拟
+
+检查下标范围在 $[left, right]$ 内的字符串 $words[i]$，若当前 $words[i]$ 首尾字母为 `aeiou` 之一，进行计数。
+
+代码：
+
+* []
+
+```Java
+class Solution {
+    public int vowelStrings(String[] words, int left, int right) {
+        int ans = 0;
+        for (int i = left; i <= right; i++) {
+            String s = words[i];
+            char a = s.charAt(0), b = s.charAt(s.length() - 1);
+            if ("aeiou".indexOf(a) != -1 && "eaiou".indexOf(b) != -1) ans++;
+        }
+        return ans;
+    }
+}
+```
+
+* []
+
+```Python
+class Solution:
+    def vowelStrings(self, words: List[str], left: int, right: int) -> int:
+        return sum(1 for i in range(left, right + 1) if words[i][0] in "aeiou" and words[i][-1] in "aeiou")
+```
+
+* []
+
+```C++
+class Solution {
+public:
+    int vowelStrings(vector<string>& words, int left, int right) {
+        int ans = 0;
+        for (int i = left; i <= right; i++) {
+            string s = words[i];
+            if (s.find_first_of("aeiou") == 0 && s.find_last_of("aeiou") == s.length() - 1) ans++;
+        }
+        return ans;
+    }
+};
+```
+
+* []
+
+```TypeScript
+function vowelStrings(words: string[], left: number, right: number): number {
+    let ans = 0;
+    for (let i = left; i <= right; i++) {
+        const s = words[i];
+        if ("aeiou".includes(s[0]) && "aeiou".includes(s.charAt(s.length - 1))) ans++;
+    }
+    return ans;
+};
+```
+
+* 时间复杂度：$O(n)$
+* 空间复杂度：$O(1)$
+
+---
+
+## 最后
+
+**如果有帮助到你，请给题解点个赞和收藏，让更多的人看到 ~ ("▔□▔)/**
+
+所有题解已经加入 [刷题指南](https://github.com/SharingSource/LogicStack-LeetCode/wiki)，欢迎 star 哦 ~
+
