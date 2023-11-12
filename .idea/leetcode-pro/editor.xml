@@ -3,6 +3,18 @@
   <component name="LeetcodeEditorPro">
     <option name="a">
       <map>
+        <entry key="$PROJECT_DIR$/editor/cn/[2300]咒语和药水的成功对数.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[2300]咒语和药水的成功对数.md" />
+              <option name="frontendQuestionId" value="leetcode.cn2300" />
+              <option name="host" value="leetcode.cn" />
+              <option name="langSlug" value="java" />
+              <option name="path" value="$PROJECT_DIR$/editor/cn/[2300]咒语和药水的成功对数.java" />
+              <option name="titleSlug" value="successful-pairs-of-spells-and-potions" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/leetcode/editor/cn/[1]两数之和.java">
           <value>
             <LeetcodeEditor>
@@ -27,15 +39,15 @@
             </LeetcodeEditor>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/editor/cn/[2300]咒语和药水的成功对数.java">
+        <entry key="$PROJECT_DIR$/editor/cn/[715]Range 模块.java">
           <value>
             <LeetcodeEditor>
-              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[2300]咒语和药水的成功对数.md" />
-              <option name="frontendQuestionId" value="leetcode.cn2300" />
+              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[715]Range 模块.md" />
+              <option name="frontendQuestionId" value="leetcode.cn715" />
               <option name="host" value="leetcode.cn" />
               <option name="langSlug" value="java" />
-              <option name="path" value="$PROJECT_DIR$/editor/cn/[2300]咒语和药水的成功对数.java" />
-              <option name="titleSlug" value="successful-pairs-of-spells-and-potions" />
+              <option name="path" value="$PROJECT_DIR$/editor/cn/[715]Range 模块.java" />
+              <option name="titleSlug" value="range-module" />
             </LeetcodeEditor>
           </value>
         </entry>
