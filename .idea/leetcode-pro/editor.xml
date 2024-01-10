@@ -1,53 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="LeetcodeEditorPro">
-    <option name="a">
+    <option name="projectConfig">
       <map>
-        <entry key="$PROJECT_DIR$/editor/cn/[2300]咒语和药水的成功对数.java">
+        <entry key="$PROJECT_DIR$/editor/cn/[1]两数之和.java">
           <value>
             <LeetcodeEditor>
-              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[2300]咒语和药水的成功对数.md" />
-              <option name="frontendQuestionId" value="leetcode.cn2300" />
-              <option name="host" value="leetcode.cn" />
-              <option name="langSlug" value="java" />
-              <option name="path" value="$PROJECT_DIR$/editor/cn/[2300]咒语和药水的成功对数.java" />
-              <option name="titleSlug" value="successful-pairs-of-spells-and-potions" />
-            </LeetcodeEditor>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/leetcode/editor/cn/[1]两数之和.java">
-          <value>
-            <LeetcodeEditor>
-              <option name="contentPath" value="$PROJECT_DIR$/leetcode/editor/cn/doc/content/[1]两数之和.md" />
+              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[1]两数之和.md" />
               <option name="frontendQuestionId" value="leetcode.cn1" />
               <option name="host" value="leetcode.cn" />
               <option name="langSlug" value="java" />
-              <option name="path" value="$PROJECT_DIR$/leetcode/editor/cn/[1]两数之和.java" />
+              <option name="path" value="$PROJECT_DIR$/editor/cn/[1]两数之和.java" />
               <option name="titleSlug" value="two-sum" />
             </LeetcodeEditor>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/leetcode/editor/cn/[2300]咒语和药水的成功对数.java">
+        <entry key="$PROJECT_DIR$/editor/cn/[2696]删除子串后的字符串最小长度.java">
           <value>
             <LeetcodeEditor>
-              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[2300]咒语和药水的成功对数.md" />
-              <option name="frontendQuestionId" value="leetcode.cn2300" />
+              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[2696]删除子串后的字符串最小长度.md" />
+              <option name="frontendQuestionId" value="leetcode.cn2696" />
               <option name="host" value="leetcode.cn" />
               <option name="langSlug" value="java" />
-              <option name="path" value="$PROJECT_DIR$/editor/cn/[2300]咒语和药水的成功对数.java" />
-              <option name="titleSlug" value="successful-pairs-of-spells-and-potions" />
-            </LeetcodeEditor>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/editor/cn/[715]Range 模块.java">
-          <value>
-            <LeetcodeEditor>
-              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[715]Range 模块.md" />
-              <option name="frontendQuestionId" value="leetcode.cn715" />
-              <option name="host" value="leetcode.cn" />
-              <option name="langSlug" value="java" />
-              <option name="path" value="$PROJECT_DIR$/editor/cn/[715]Range 模块.java" />
-              <option name="titleSlug" value="range-module" />
+              <option name="path" value="$PROJECT_DIR$/editor/cn/[2696]删除子串后的字符串最小长度.java" />
+              <option name="titleSlug" value="minimum-string-length-after-removing-substrings" />
             </LeetcodeEditor>
           </value>
         </entry>

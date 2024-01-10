@@ -1,0 +1,68 @@
+> Problem: [2696. 删除子串后的字符串最小长度](https://leetcode.cn/problems/minimum-string-length-after-removing-substrings/description/)
+
+[TOC]
+
+# 方法一：滑窗
+
+> "AB"/"CD"的长度均为2，则可设置一个大小为2的滑动窗口，沿着字符串$s$从左到右依次检查，如果发现目标子串，则$s$的长度$n$减2，当前索引$i$向后退2步（可能出现新的"AB"/"CD"），若索引$i$=0，则退1步
+
+# 复杂度
+
+时间复杂度:
+
+> $O(n)$
+
+空间复杂度:
+
+> $O(n)$
+
+# Code
+
+* []
+
+```Python
+class Solution:
+    def minLength(self, s: str) -> int:
+        n = len(s)
+        i = 0
+        while i<n:
+            s1 = s[i:i+2]
+            if s1 == "AB" or s1 == "CD":
+                s = s[:i] + s[i+2:]
+                n -= 2
+                i = -1 if i==0 else i-2
+            i += 1
+        return len(s)
+```
+
+# 方法二：栈
+
+> 建立一个栈，依次往里面放入$s$中的字符；当栈中元素不少于2个时，检查放入的子串，若栈顶的前2个字符为“AB”或“CD”时，则弹出前2个字符。遍历结束，栈中最后剩下的字符串长度，即为答案！
+
+# 复杂度
+
+时间复杂度:
+
+> $O(n)$
+
+空间复杂度:
+
+> $O(n)$
+
+# Code
+
+* []
+
+```Python
+class Solution:
+    def minLength(self, s: str) -> int:
+        n = len(s)
+        st = []
+        for i in s:
+            st.append(i)
+            if len(st) >= 2 and (st[-2:] == ['A', 'B'] or st[-2:] == ['C', 'D']):
+              st.pop()
+              st.pop()
+        return len(st)
+```
+
