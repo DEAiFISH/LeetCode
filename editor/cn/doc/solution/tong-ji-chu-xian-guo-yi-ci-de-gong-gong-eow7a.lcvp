@@ -1,0 +1,239 @@
+#### 方法一：哈希表
+
+**思路与算法**
+
+我们用两个哈希表分别统计 $\textit{word1}$ 与 $\textit{word2}$ 中字符串的出现次数。
+
+随后，我们遍历第一个哈希表中的字符串，检查它在 $\textit{word1}$ 与 $\textit{word2}$ 中的出现次数是否均为 $1$。与此同时，我们统计出现过一次的公共字符串个数，如果某个字符串在两个数组中均只出现一次，那么我们将个数加 $1$。最终，我们返回该个数作为答案。
+
+**代码**
+
+* [sol1-C++]
+
+```C++
+class Solution {
+public:
+    int countWords(vector<string>& words1, vector<string>& words2) {
+        // 统计字符串出现频率
+        unordered_map<string, int> freq1, freq2;
+        for (const string& w: words1) {
+            ++freq1[w];
+        }
+        for (const string& w: words2) {
+            ++freq2[w];
+        }
+
+        // 遍历 words1 出现的字符并判断是否满足要求
+        int res = 0;
+        for (const auto& [w, cnt1] : freq1) {
+            if (cnt1 == 1 && freq2[w] == 1) {
+                ++res;
+            }
+        }
+        return res;
+    }
+};
+```
+
+* [sol1-Python3]
+
+```Python
+class Solution:
+    def countWords(self, words1: List[str], words2: List[str]) -> int:
+        # 统计字符串出现频率
+        freq1 = Counter(words1)
+        freq2 = Counter(words2)
+
+        # 遍历 words1 出现的字符串并检查个数
+        res = 0
+        for w in freq1:
+            if freq1[w] == 1 and freq2[w] == 1:
+                res += 1
+        return res
+```
+
+* [sol1-Java]
+
+```Java
+class Solution {
+    public int countWords(String[] words1, String[] words2) {
+        // 统计字符串出现频率
+        Map<String, Integer> freq1 = new HashMap<>();
+        Map<String, Integer> freq2 = new HashMap<>();
+        for (String w : words1) {
+            freq1.put(w, freq1.getOrDefault(w, 0) + 1);
+        }
+        for (String w : words2) {
+            freq2.put(w, freq2.getOrDefault(w, 0) + 1);
+        }
+
+        // 遍历 words1 出现的字符并判断是否满足要求
+        int res = 0;
+        for (String w : freq1.keySet()) {
+            if (freq1.get(w) == 1 && freq2.getOrDefault(w, 0) == 1) {
+                res++;
+            }
+        }
+        return res;
+    }
+}
+```
+
+* [sol1-Go]
+
+```Go
+func countWords(words1 []string, words2 []string) int {
+    // 统计字符串出现频率
+    freq1 := make(map[string]int)
+    freq2 := make(map[string]int)
+    for _, w := range words1 {
+        freq1[w]++
+    }
+    for _, w := range words2 {
+        freq2[w]++
+    }
+
+    // 遍历 words1 出现的字符串并检查个数
+    res := 0
+    for w, cnt1 := range freq1 {
+        if cnt1 == 1 && freq2[w] == 1 {
+            res++
+        }
+    }
+    return res
+}
+```
+
+* [sol1-JavaScript]
+
+```JavaScript
+var countWords = function(words1, words2) {
+    // 统计字符串出现频率
+    const freq1 = new Map();
+    const freq2 = new Map();
+    for (const w of words1) {
+        freq1.set(w, (freq1.get(w) || 0) + 1);
+    }
+    for (const w of words2) {
+        freq2.set(w, (freq2.get(w) || 0) + 1);
+    }
+
+    // 遍历 words1 出现的字符串并检查个数
+    let res = 0;
+    for (const [w, cnt1] of freq1.entries()) {
+        if (cnt1 === 1 && freq2.get(w) === 1) {
+            res++;
+        }
+    }
+    return res;
+};
+```
+
+* [sol1-C#]
+
+```C#
+public class Solution {
+    public int CountWords(string[] words1, string[] words2) {
+        // 统计字符串出现频率
+        IDictionary<string, int> freq1 = new Dictionary<string, int>();
+        IDictionary<string, int> freq2 = new Dictionary<string, int>();
+        foreach (string w in words1) {
+            freq1[w] = freq1.GetValueOrDefault(w, 0) + 1;
+        }
+        foreach (string w in words2) {
+            freq2[w] = freq2.GetValueOrDefault(w, 0) + 1;
+        }
+
+        // 遍历 words1 出现的字符串并检查个数
+        int res = 0;
+        foreach (var w in freq1) {
+            if (w.Value == 1 && freq2.GetValueOrDefault(w.Key, 0) == 1) {
+                res++;
+            }
+        }
+        return res;
+    }
+}
+```
+
+* [sol1-C]
+
+```C
+typedef struct {
+    char *key;
+    int val;
+    UT_hash_handle hh;
+} HashItem; 
+
+HashItem *hashFindItem(HashItem **obj, const char *key) {
+    HashItem *pEntry = NULL;
+    HASH_FIND_STR(*obj, key, pEntry);
+    return pEntry;
+}
+
+bool hashAddItem(HashItem **obj, char *key, int val) {
+    if (hashFindItem(obj, key)) {
+        return false;
+    }
+    HashItem *pEntry = (HashItem *)malloc(sizeof(HashItem));
+    pEntry->key = key;
+    pEntry->val = val;
+    HASH_ADD_STR(*obj, key, pEntry);
+    return true;
+}
+
+bool hashSetItem(HashItem **obj, char *key, int val) {
+    HashItem *pEntry = hashFindItem(obj, key);
+    if (!pEntry) {
+        hashAddItem(obj, key, val);
+    } else {
+        pEntry->val = val;
+    }
+    return true;
+}
+
+int hashGetItem(HashItem **obj, const char *key, int defaultVal) {
+    HashItem *pEntry = hashFindItem(obj, key);
+    if (!pEntry) {
+        return defaultVal;
+    }
+    return pEntry->val;
+}
+
+void hashFree(HashItem **obj) {
+    HashItem *curr = NULL, *tmp = NULL;
+    HASH_ITER(hh, *obj, curr, tmp) {
+        HASH_DEL(*obj, curr);  
+        free(curr);
+    }
+}
+
+int countWords(char** words1, int words1Size, char** words2, int words2Size) {
+    HashItem *freq1 = NULL, *freq2 = NULL;
+    for (int i = 0; i < words1Size; i++) {
+        hashSetItem(&freq1, words1[i], hashGetItem(&freq1, words1[i], 0) + 1);
+    }
+    for (int i = 0; i < words2Size; i++) {
+        hashSetItem(&freq2, words2[i], hashGetItem(&freq2, words2[i], 0) + 1);
+    }
+
+    // 遍历 words1 出现的字符并判断是否满足要求
+    int res = 0;
+    for (HashItem *pEntry = freq1; pEntry; pEntry = pEntry->hh.next) {
+        int cnt1 = pEntry->val;
+        if (cnt1 == 1 && hashGetItem(&freq2, pEntry->key, 0) == 1) {
+            ++res;
+        }
+    }
+    hashFree(&freq1);
+    hashFree(&freq2);
+    return res;
+}
+```
+
+**复杂度分析**
+
+- 时间复杂度：$O(m + n)$，其中 $m$ 为 $\textit{word1}$ 中**所有字符串的长度之和**，$n$ 为 $\textit{word2}$ 中所有字符串的总长度。即为维护哈希表和遍历统计出现过一次的公共字符串数量的时间复杂度。
+
+- 空间复杂度：$O(m + n)$，即为哈希表的空间开销。
+

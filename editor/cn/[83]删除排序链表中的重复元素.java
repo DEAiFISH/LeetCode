@@ -44,7 +44,7 @@
  */
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null) {
+        /*if (head == null) {
             return head;
         }
         ListNode t = head;
@@ -60,8 +60,19 @@ class Solution {
                 m.next = null;
             }
 
-        }
+        }*/
 
+        ListNode p = head;
+        while (p != null) {
+            while (p.next != null && p.next.val == p.val) {
+                if (p.next.next != null) {
+                    p.next = p.next.next;
+                } else {
+                    p.next = null;
+                }
+            }
+            p = p.next;
+        }
         return head;
     }
 }

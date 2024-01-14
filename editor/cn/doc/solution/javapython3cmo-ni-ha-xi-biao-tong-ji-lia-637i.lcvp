@@ -1,0 +1,97 @@
+> [2085. 统计出现过一次的公共字符串](https://leetcode.cn/problems/count-common-words-with-one-occurrence/)
+
+[TOC]
+
+# 题目
+
+给你两个字符串数组 `words1` 和 `words2` ，请你返回在两个字符串数组中 **都恰好出现一次** 的字符串的数目。
+
+# 题目分析
+
+## 思路分析
+
+这道题是个模拟题。
+
+要找到在两个字符串数组中 **都恰好出现一次** 的字符串的数目，分三步走：
+
+1. 利用哈希表 `counts1`， 统计第一个字符串数组 `words1` 每个字符串出现的次数；
+2. 利用哈希表 `counts2`，统计第二个字符串数组 `words2` 每个字符串出现的次数；
+3. 从哈希表 `counts1` 中找到次数为 `1` 的字符串，并且这些字符串在 `counts2` 次数也为1；
+
+![image-20240112005731374.png](https://pic.leetcode.cn/1704992309-imdTat-image-20240112005731374.png)
+
+# 代码
+
+* []
+
+```Java
+class Solution {
+    public int countWords(String[] words1, String[] words2) {
+        // 统计words1中每个字符出现的次数
+        Map<String, Integer> counts1 = new HashMap<>();     
+        for(String w1: words1){
+            counts1.put(w1, counts1.getOrDefault(w1, 0) + 1);
+        }
+        // 统计words2中每个字符出现的次数
+        Map<String, Integer> counts2 = new HashMap<>();
+        for(String w2: words2){
+            counts2.put(w2, counts2.getOrDefault(w2, 0) + 1);
+        }
+        // 统计同时在words1和words2出现且出现次数均为1得到字符串个数
+        int res = 0;
+        for(String word: counts1.keySet()){
+            // 遍历counts1，找到在words1出现一次同时在words2出现一次
+            if(counts1.get(word) == 1 && counts2.getOrDefault(word, 0) == 1)
+                res += 1;
+        }
+        return res;
+    }
+}
+```
+
+* []
+
+```Python
+class Solution:
+    def countWords(self, words1: List[str], words2: List[str]) -> int:
+        # 统计words1中每个字符出现的次数
+        counts1 = Counter(words1)
+        # 统计words2中每个字符出现的次数
+        counts2 = Counter(words2)
+        # 统计同时在words1和words2出现且出现次数均为1得到字符串个数
+        res = 0
+        for word, cnt in counts1.items():
+            # 遍历counts1，找到在words1出现一次同时在words2出现一次
+            if cnt == 1 and counts2.get(word, 0) == 1:
+                res += 1
+        return res
+```
+
+* []
+
+```C++
+class Solution {
+public:
+    int countWords(vector<string>& words1, vector<string>& words2) {
+        // 统计words1中每个字符出现的次数
+        unordered_map<string, int> counts1;     
+        for(auto& w1: words1){
+            counts1[w1]++;
+        }
+        // 统计words2中每个字符出现的次数
+        unordered_map<string, int> counts2;
+        for(auto& w2: words2){
+            counts2[w2]++;
+        }
+        // 统计同时在words1和words2出现且出现次数均为1得到字符串个数
+        int res = 0;
+        for(auto it = counts1.begin(); it != counts1.end(); it++){
+            // 遍历counts1，找到在words1出现一次同时在words2出现一次
+            if(it->second == 1 && counts2[it->first] == 1)
+                res += 1;
+        }
+        return res;
+    }
+};
+```
+
