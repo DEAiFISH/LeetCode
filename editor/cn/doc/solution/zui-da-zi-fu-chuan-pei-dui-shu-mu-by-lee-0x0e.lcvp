@@ -1,0 +1,380 @@
+#### 方法一：两重循环枚举
+
+**思路与算法**
+
+我们可以直接使用二重循环，枚举给定的数组 $\textit{words}$ 中的 $\textit{words}[i]$ 和 $\textit{words}[j]$ 是否可以匹配。
+
+由于题目规定了数组 $\textit{words}$ 中包含的字符串互不相同，因此在枚举时，只要保证 $i < j$，那么每个字符串最多匹配一次。
+
+**代码**
+
+* [sol1-C++]
+
+```C++
+class Solution {
+public:
+    int maximumNumberOfStringPairs(vector<string>& words) {
+        int n = words.size();
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (words[i][0] == words[j][1] && words[i][1] == words[j][0]) {
+                    ++ans;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+* [sol1-Java]
+
+```Java
+class Solution {
+    public int maximumNumberOfStringPairs(String[] words) {
+        int n = words.length;
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (words[i].charAt(0) == words[j].charAt(1) && words[i].charAt(1) == words[j].charAt(0)) {
+                    ++ans;
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+* [sol1-C#]
+
+```C#
+public class Solution {
+    public int MaximumNumberOfStringPairs(string[] words) {
+        int n = words.Length;
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (words[i][0] == words[j][1] && words[i][1] == words[j][0]) {
+                    ++ans;
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+* [sol1-Python3]
+
+```Python
+class Solution:
+    def maximumNumberOfStringPairs(self, words: List[str]) -> int:
+        n = len(words)
+        ans = 0
+        for i in range(n):
+            for j in range(i + 1, n):
+                if words[i] == words[j][::-1]:
+                    ans += 1
+        return ans
+```
+
+* [sol1-Go]
+
+```Go
+func maximumNumberOfStringPairs(words []string) int {
+    n := len(words)
+    ans := 0
+    for i := 0; i < n; i++ {
+        for j := i + 1; j < n; j++ {
+            if words[i][0] == words[j][1] && words[i][1] == words[j][0] {
+                ans++
+            }
+        }
+    }
+    return ans
+}
+```
+
+* [sol1-C]
+
+```C
+int maximumNumberOfStringPairs(char ** words, int wordsSize) {
+    int ans = 0;
+    for (int i = 0; i < wordsSize; ++i) {
+        for (int j = i + 1; j < wordsSize; ++j) {
+            if (words[i][0] == words[j][1] && words[i][1] == words[j][0]) {
+                ++ans;
+            }
+        }
+    }
+    return ans;
+}
+```
+
+* [sol1-JavaScript]
+
+```JavaScript
+var maximumNumberOfStringPairs = function(words) {
+    const n = words.length;
+    let ans = 0;
+    for (let i = 0; i < n; ++i) {
+        for (let j = i + 1; j < n; ++j) {
+            if (words[i][0] == words[j][1] && words[i][1] == words[j][0]) {
+                ++ans;
+            }
+        }
+    }
+    return ans;
+};
+```
+
+* [sol1-TypeScript]
+
+```TypeScript
+function maximumNumberOfStringPairs(words: string[]): number {
+    const n: number = words.length;
+    let ans: number = 0;
+    for (let i: number = 0; i < n; ++i) {
+        for (let j: number = i + 1; j < n; ++j) {
+            if (words[i][0] == words[j][1] && words[i][1] == words[j][0]) {
+                ++ans;
+            }
+        }
+    }
+    return ans;
+};
+```
+
+* [sol1-Rust]
+
+```Rust
+impl Solution {
+    pub fn maximum_number_of_string_pairs(words: Vec<String>) -> i32 {
+        let n = words.len();
+        let mut ans = 0;
+
+        for i in 0..n {
+            for j in i + 1..n {
+                if words[i].chars().nth(0) == words[j].chars().nth(1)
+                    && words[i].chars().nth(1) == words[j].chars().nth(0) {
+                    ans += 1;
+                }
+            }
+        }
+        ans
+    }
+}
+```
+
+**复杂度分析**
+
+- 时间复杂度：$O(n^2)$，其中 $n$ 是数组 $\textit{words}$ 的长度。
+
+- 空间复杂度：$O(1)$。
+
+#### 方法二：哈希表
+
+**思路与算法**
+
+我们也可以借助哈希集合，只进行一次遍历。
+
+当我们枚举到 $\textit{words}[i]$ 时，我们将之前的所有字符串 $\textit{words}[0 ..i-1]$ 放入哈希集合中。如果 $\textit{words}[i]$ 的反转字符串在哈希集合中存在，那么匹配的数量增加 $1$。
+
+对于比较方便得到反转字符串的语言，我们可以在哈希集合中存储字符串本身；对于其它语言，我们可以存储字符串的哈希值，改为判断 $\textit{words}[i]$ 的反转字符串的哈希值是否存在。哈希值需要保证不会冲突，本题中字符串的长度为 $2$ 并且只包含小写字母，因此可以使用 $100a + b$ 作为哈希值，其中 $a$ 和 $b$ 分别是两个字符的 $\text{ASCII}$ 值。
+
+**代码**
+
+* [sol2-C++]
+
+```C++
+class Solution {
+public:
+    int maximumNumberOfStringPairs(vector<string>& words) {
+        int n = words.size();
+        int ans = 0;
+        unordered_set<int> seen;
+        for (int i = 0; i < n; ++i) {
+            if (seen.count(words[i][1] * 100 + words[i][0])) {
+                ++ans;
+            }
+            seen.insert(words[i][0] * 100 + words[i][1]);
+        }
+        return ans;
+    }
+};
+```
+
+* [sol2-Java]
+
+```Java
+class Solution {
+    public int maximumNumberOfStringPairs(String[] words) {
+        int n = words.length;
+        int ans = 0;
+        Set<Integer> seen = new HashSet<Integer>();
+        for (int i = 0; i < n; ++i) {
+            if (seen.contains(words[i].charAt(1) * 100 + words[i].charAt(0))) {
+                ++ans;
+            }
+            seen.add(words[i].charAt(0) * 100 + words[i].charAt(1));
+        }
+        return ans;
+    }
+}
+```
+
+* [sol2-C#]
+
+```C#
+public class Solution {
+    public int MaximumNumberOfStringPairs(string[] words) {
+        int n = words.Length;
+        int ans = 0;
+        ISet<int> seen = new HashSet<int>();
+        for (int i = 0; i < n; ++i) {
+            if (seen.Contains(words[i][1] * 100 + words[i][0])) {
+                ++ans;
+            }
+            seen.Add(words[i][0] * 100 + words[i][1]);
+        }
+        return ans;
+    }
+}
+```
+
+* [sol2-Python3]
+
+```Python
+class Solution:
+    def maximumNumberOfStringPairs(self, words: List[str]) -> int:
+        ans = 0
+        seen = set()
+        for i, word in enumerate(words):
+            if word[::-1] in seen:
+                ans += 1
+            seen.add(word)
+        return ans
+```
+
+* [sol2-Go]
+
+```Go
+func maximumNumberOfStringPairs(words []string) int {
+    ans := 0
+    seen := map[int]int{}
+    for _, word := range words {
+        ans += seen[int(word[1]) * 100 + int(word[0])]
+        seen[int(word[0]) * 100 + int(word[1])] = 1
+    }
+    return ans
+}
+```
+
+* [sol2-C]
+
+```C
+typedef struct {
+    int key;
+    UT_hash_handle hh;
+} HashItem; 
+
+HashItem *hashFindItem(HashItem **obj, int key) {
+    HashItem *pEntry = NULL;
+    HASH_FIND_INT(*obj, &key, pEntry);
+    return pEntry;
+}
+
+bool hashAddItem(HashItem **obj, int key) {
+    if (hashFindItem(obj, key)) {
+        return false;
+    }
+    HashItem *pEntry = (HashItem *)malloc(sizeof(HashItem));
+    pEntry->key = key;
+    HASH_ADD_INT(*obj, key, pEntry);
+    return true;
+}
+
+void hashFree(HashItem **obj) {
+    HashItem *curr = NULL, *tmp = NULL;
+    HASH_ITER(hh, *obj, curr, tmp) {
+        HASH_DEL(*obj, curr);  
+        free(curr);
+    }
+}
+
+int maximumNumberOfStringPairs(char ** words, int wordsSize) {
+    int ans = 0;
+    HashItem *seen = NULL;
+    for (int i = 0; i < wordsSize; ++i) {
+        if (hashFindItem(&seen, words[i][1] * 100 + words[i][0])) {
+            ++ans;
+        }
+        hashAddItem(&seen, words[i][0] * 100 + words[i][1]);
+    }
+    return ans;
+}
+```
+
+* [sol2-JavaScript]
+
+```JavaScript
+var maximumNumberOfStringPairs = function(words) {
+    const n = words.length;
+    const seen = new Set();
+    let ans = 0;
+    for (const word of words) {
+        if (seen.has(word.charCodeAt(1) * 100 + word.charCodeAt(0))) {
+            ++ans;
+        }
+        seen.add(word.charCodeAt(0) * 100 + word.charCodeAt(1));
+    }
+    return ans;
+};
+```
+
+* [sol2-TypeScript]
+
+```TypeScript
+function maximumNumberOfStringPairs(words: string[]): number {
+    const n: number = words.length;
+    const seen: Set<number> = new Set();
+    let ans: number = 0;
+    for (const word of words) {
+        if (seen.has(word.charCodeAt(1) * 100 + word.charCodeAt(0))) {
+            ++ans;
+        }
+        seen.add(word.charCodeAt(0) * 100 + word.charCodeAt(1));
+    }
+    return ans;
+};
+```
+
+* [sol2-Rust]
+
+```Rust
+use std::collections::HashSet;
+
+impl Solution {
+    pub fn maximum_number_of_string_pairs(words: Vec<String>) -> i32 {
+        let mut seen: HashSet<u16> = HashSet::new();
+        let mut ans = 0;
+        for word in words {
+            let key = word.chars().nth(1).unwrap() as u16 * 100 + word.chars().nth(0).unwrap() as u16;
+            if seen.contains(&key) {
+                ans += 1;
+            }
+            seen.insert(word.chars().nth(0).unwrap() as u16 * 100 + word.chars().nth(1).unwrap() as u16);
+        }
+        ans
+    }
+}
+```
+
+**复杂度分析**
+
+- 时间复杂度：$O(n)$，其中 $n$ 是数组 $\textit{words}$ 的长度。
+
+- 空间复杂度：$O(n)$，即为哈希表需要使用的空间。
+
