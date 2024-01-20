@@ -15,6 +15,18 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/editor/cn/[2171]拿出最少数目的魔法豆.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[2171]拿出最少数目的魔法豆.md" />
+              <option name="frontendQuestionId" value="leetcode.cn2171" />
+              <option name="host" value="leetcode.cn" />
+              <option name="langSlug" value="java" />
+              <option name="path" value="$PROJECT_DIR$/editor/cn/[2171]拿出最少数目的魔法豆.java" />
+              <option name="titleSlug" value="removing-minimum-number-of-magic-beans" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/editor/cn/[2696]删除子串后的字符串最小长度.java">
           <value>
             <LeetcodeEditor>
@@ -36,6 +48,18 @@
               <option name="langSlug" value="java" />
               <option name="path" value="$PROJECT_DIR$/editor/cn/[2744]最大字符串配对数目.java" />
               <option name="titleSlug" value="find-maximum-number-of-string-pairs" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/editor/cn/[2788]按分隔符拆分字符串.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/editor/cn/doc/content/[2788]按分隔符拆分字符串.md" />
+              <option name="frontendQuestionId" value="leetcode.cn2788" />
+              <option name="host" value="leetcode.cn" />
+              <option name="langSlug" value="java" />
+              <option name="path" value="$PROJECT_DIR$/editor/cn/[2788]按分隔符拆分字符串.java" />
+              <option name="titleSlug" value="split-strings-by-separator" />
             </LeetcodeEditor>
           </value>
         </entry>
