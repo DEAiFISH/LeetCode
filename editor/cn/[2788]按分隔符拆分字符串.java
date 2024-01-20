@@ -70,12 +70,12 @@ class Solution {
         for (String str : words) {
             int index = -1;
             while ((index = str.indexOf(separator)) != -1) {
-                if(index != 0){
+                if (index != 0) {
                     res.add(str.substring(0, index));
                 }
                 str = str.substring(index + 1);
             }
-            if(!str.isEmpty()){
+            if (!str.isEmpty()) {
                 res.add(str);
             }
         }
