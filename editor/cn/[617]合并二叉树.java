@@ -37,7 +37,7 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
-public class TreeNode {
+/*public class TreeNode {
     int val;
     TreeNode left;
     TreeNode right;
@@ -54,7 +54,7 @@ public class TreeNode {
         this.left = left;
         this.right = right;
     }
-}
+}*/
 
 class Solution {
     public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
