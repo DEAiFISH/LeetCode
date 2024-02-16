@@ -1,0 +1,39 @@
+<div>
+ <details>
+  <summary>Similar Questions</summary>
+  <div></div>
+ </details>
+</div>
+<div>
+ <details>
+  <summary>Hint 1</summary>
+  <div>
+   Return 0 if the grid is already disconnected.
+  </div>
+ </details>
+</div>
+<div>
+ <details>
+  <summary>Hint 2</summary>
+  <div>
+   Return 1 if changing a single land to water disconnect the island.
+  </div>
+ </details>
+</div>
+<div>
+ <details>
+  <summary>Hint 3</summary>
+  <div>
+   Otherwise return 2.
+  </div>
+ </details>
+</div>
+<div>
+ <details>
+  <summary>Hint 4</summary>
+  <div>
+   We can disconnect the grid within at most 2 days.
+  </div>
+ </details>
+</div>
+
