@@ -41,9 +41,14 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Solution {
 
     private String letterMap[] = {
+            "",
+            "",
             "abc",  //2
             "def",  //3
             "ghi",  //4
@@ -54,33 +59,31 @@ public class Solution {
             "wxyz"  //9
     };
 
-    private ArrayList<String> res;
+    private LinkedList<String> res;
+    private StringBuilder sb = new StringBuilder();
 
     public List<String> letterCombinations(String digits) {
 
-        res = new ArrayList<String>();
-        if (digits.equals(""))
+        res = new LinkedList<>();
+        if (digits.equals("")) {
             return res;
+        }
 
-        findCombination(digits, 0, "");
+        findCombination(digits, 0);
         return res;
     }
 
-    private void findCombination(String digits, int index, String s) {
-
+    private void findCombination(String digits, int index) {
         if (index == digits.length()) {
-            res.add(s);
+            res.add(sb.toString());
             return;
         }
-
-        Character c = digits.charAt(index);
-        String letters = letterMap[c - '2'];
-        for (int i = 0; i < letters.length(); i++) {
-            findCombination(digits, index + 1, s + letters.charAt(i));
+        int number = digits.charAt(index) - '0';
+        for (int i = 0; i < letterMap[number].length(); i++) {
+            sb.append(letterMap[number].charAt(i));
+            findCombination(digits,index + 1);
+            sb.deleteCharAt(index);
         }
-
-
     }
-
 }
 //leetcode submit region end(Prohibit modification and deletion)

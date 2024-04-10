@@ -32,28 +32,29 @@
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> res = new ArrayList();
+        List<List<Integer>> res = new ArrayList<>();
 
-        backTrace(nums, res, 0, new ArrayList());
+        backTrace(nums, res, 0, new LinkedList<>());
 
         return res;
 
     }
 
-    public void backTrace(int[] nums, List<List<Integer>> res, int index, List<Integer> trace) {
-        res.add(new ArrayList(trace));
+    public void backTrace(int[] nums, List<List<Integer>> res, int index, LinkedList<Integer> trace) {
+        res.add(new ArrayList<>(trace));
 
         //根据示例，组合起来得子集是有序得，故起点为index+1
         for (int i = index; i < nums.length; i++) {
             trace.add(nums[i]);
             backTrace(nums, res, i + 1, trace);
-            trace.remove(trace.size() - 1);
+            trace.removeLast();
         }
     }
 }
