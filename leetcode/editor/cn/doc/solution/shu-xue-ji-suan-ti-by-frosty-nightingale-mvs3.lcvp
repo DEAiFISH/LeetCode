@@ -1,0 +1,43 @@
+> Problem: [263. 丑数](https://leetcode.cn/problems/ugly-number/description/)
+
+[TOC]
+
+# 思路
+
+如果为丑数，则必定能被2，3，5整除到一，如果不能整除到一的话则说明有其他质数
+
+# 解题方法
+
+> 用循环嵌套进行
+
+# 复杂度
+
+时间复杂度:
+
+> 添加时间复杂度, 示例： $O(n)$
+
+空间复杂度:
+
+> 添加空间复杂度, 示例： $O(n)$
+
+# Code
+
+* []
+
+```Python
+class Solution:
+    def isUgly(self, n: int) -> bool:
+        if n<=0:
+            return False
+        
+        factors = [2,3,5]
+        for factor in factors:
+            while n % factor == 0:
+                n //= factor
+        
+        if n == 1:
+            return True
+        else:
+            return False
+```
+
